@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        
         :root {
             --glass-bg: rgba(255, 255, 255, 0.45);
             --glass-border: rgba(255, 255, 255, 0.6);
@@ -36,7 +35,6 @@
             color: var(--text-main);
             min-height: 100vh;
             overflow-x: hidden;
-            /* 动态流体背景 */
             background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
@@ -63,7 +61,7 @@
         header {
             text-align: center;
             width: 100%;
-            max-width:500px;
+            max-width: 500px;
             margin: 20px auto 30px;
             padding: 25px;
             border-radius: 30px;
@@ -76,7 +74,6 @@
             overflow: hidden;
         }
 
-        /* 头部光效 */
         header::before {
             content: '';
             position: absolute;
@@ -107,7 +104,6 @@
             font-size: 0.9rem;
         }
 
-        /* 胶囊导航 */
         .nav-pills {
             display: flex;
             background: rgba(255, 255, 255, 0.3);
@@ -155,7 +151,6 @@
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 30px;
             perspective: 1000px;
-            /* 为3D效果做准备 */
         }
 
         .card {
@@ -165,7 +160,6 @@
             border: 1px solid var(--glass-border);
             box-shadow: var(--glass-shadow);
             transition: transform 0.1s ease, box-shadow 0.3s ease;
-            /* transform 时间必须短，不然3D跟手感差 */
             cursor: pointer;
             display: flex;
             flex-direction: column;
@@ -194,7 +188,6 @@
             transform: scale(1.1);
         }
 
-        /* 悬浮时的播放按钮遮罩 */
         .play-overlay {
             position: absolute;
             top: 0;
@@ -268,7 +261,6 @@
             overflow: hidden;
         }
 
-        /* ================= 4. 分页 (Neon Style) ================= */
         .pagination-wrapper {
             display: flex;
             justify-content: center;
@@ -277,7 +269,6 @@
             margin-top: 40px;
         }
 
-        /* 翻页按钮样式更新 */
         .page-btn {
             width: 40px;
             height: 40px;
@@ -290,7 +281,6 @@
             transition: 0.3s;
             backdrop-filter: blur(5px);
             font-size: 1.1rem;
-            /* 增加图标大小 */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -327,7 +317,6 @@
             box-shadow: 0 0 8px var(--accent-color);
         }
 
-        /* ================= 5. 模态框 (保留原播放器功能) ================= */
         .modal-backdrop {
             position: fixed;
             top: 0;
@@ -336,7 +325,6 @@
             height: 100%;
             background: rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(12px);
-            /* 背景模糊 */
             z-index: 999;
             opacity: 0;
             pointer-events: none;
@@ -351,7 +339,6 @@
             pointer-events: auto;
         }
 
-        /* 模态框容器：依然保持白色背景，保证播放器UI清晰 */
         .modal-window {
             width: 90%;
             max-width: 1000px;
@@ -396,8 +383,6 @@
             transform: rotate(90deg);
         }
 
-        /* ================= 播放器内部布局 (复刻上一版的iOS布局) ================= */
-        /* 视频布局 */
         .video-layout {
             display: flex;
             width: 100%;
@@ -448,7 +433,6 @@
             border-color: var(--accent-color);
         }
 
-        /* 游戏布局 */
         .game-layout {
             width: 100%;
             height: 100%;
@@ -461,20 +445,17 @@
             border: none;
         }
 
-        /* 音乐布局 (保留 Apple Music 风格) */
         .music-layout {
             width: 100%;
             height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            /* 背景保持干净，和霓虹主页形成对比，突出内容 */
             background: linear-gradient(135deg, #ffffff 0%, #f2f2f7 100%);
             position: relative;
             overflow: hidden;
         }
 
-        /* 动态背景光晕 */
         .music-bg-glow {
             position: absolute;
             width: 150%;
@@ -540,7 +521,6 @@
             margin-bottom: 30px;
         }
 
-        /* 进度条 */
         .prog-track {
             width: 100%;
             height: 6px;
@@ -562,7 +542,6 @@
             transition: width 0.1s linear;
         }
 
-        /* 按钮组 */
         .btn-group {
             display: flex;
             align-items: center;
@@ -638,8 +617,8 @@
 <body>
 
     <header>
-        <h1>For Fun</h1>
-        <div class="subtitle">Let is Go</div>
+        <h1>Sun of Fun</h1>
+        <div class="subtitle">let is go</div>
     </header>
 
     <nav class="nav-pills">
@@ -671,7 +650,7 @@
                 desc: '第四次忍界大战结束的两年后，此时此刻的漩涡鸣人早已成为盖世英雄一般的人物，无论他走到哪里都受到女孩子和小朋友的喜爱与追捧，他似乎也有其享受这样喧嚣欢闹的氛围。与之相对，壁花小姐日向雏田则始终站在角落里，默默注视着这个她喜欢了多年的男孩子。雏田亲手为鸣人织了围巾，怎奈无法鼓足勇气交给对方，喜欢的话语更难以说出口。某个夜晚，雏田的妹妹花火遭到不明身份之人劫持，带火的陨石则落在附近的山坡之上。为了救回花火，阻止地球毁灭，鸣人、雏田、小樱、鹿丸和佐井奉命前去调查舍人的真身。',
                 cover: 'https://ts1.tc.mm.bing.net/th/id/R-C.580d94b5d6ade886dcb591a11f080443?rik=m6kGhtYgF2CfRQ&riu=http%3a%2f%2fclubimg.club.vmall.com%2fdata%2fattachment%2fforum%2f201907%2f31%2f0102130aijui07eervow6b.jpg&ehk=WuZ40XJSwxQp06qRSGapGS36AqqnbA264q89pDqtvcE%3d&risl=&pid=ImgRaw&r=0',
                 episodes: [
-                    { title: 'EP 01', src: 'https://upos-sz-mirror08c.bilivideo.com/upgcxcode/47/48/1163184847/1163184847-1-100026.m4s?e=ig8euxZM2rNcNbdlhoNvNC8BqJIzNbfqXBvEqxTEto8BTrNvN0GvT90W5JZMkX_YN0MvXg8gNEV4NC8xNEV4N03eN0B5tZlqNxTEto8BTrNvNeZVuJ10Kj_g2UB02J0mN0B5tZlqNCNEto8BTrNvNC7MTX502C8f2jmMQJ6mqF2fka1mqx6gqj0eN0B599M=&uipk=5&mid=3494361121687763&og=hw&deadline=1763804858&platform=pc&trid=efb26ae67ffe44b0a3f32b7d1054e4fu&gen=playurlv3&os=08cbv&nbs=1&oi=1973053985&upsig=7939969263be403bc3c9c6f33abbb823&uparams=e,uipk,mid,og,deadline,platform,trid,gen,os,nbs,oi&bvc=vod&nettype=0&bw=181261&buvid=109D3FE0-1442-269F-10BD-A18583AFA2AE24301infoc&build=0&dl=0&f=u_0_0&agrr=1&orderid=0,3' },
+                    { title: 'EP 01', src: 'https://tempcdn.guoing.com/201910/EezARpRZ/yHzmdvUAYM.mp4' },
                 ]
             },
             {
@@ -686,12 +665,10 @@
                 id: 2, type: 'video', title: '名侦探柯南 侦探们的镇魂歌',
                 desc: '一天毛利小五郎收到一张请帖，里面是谜样男子的委托，需要前往横滨的一个游乐场。小五郎和柯南一行人快乐地到达欢乐的游乐场，还带上了可以出入无阻代表VIP的手表，不料正中那名神秘男子的圈套。所有带上手表的人不得离开游乐场，否则便会发生爆炸。从现在开始到晚上十点，柯南和小五郎如果不能解开谜题，兰和少年侦探团也会随着游乐园粉身碎骨。然而更意想不到的是，那名男子居然直接称呼柯南为工藤新一。',
                 cover: 'https://ts1.tc.mm.bing.net/th/id/R-C.754a68d936c3944337744be2e7563ba4?rik=7u3cMeL8YRRnXw&riu=http%3a%2f%2fpuui.qpic.cn%2fvcover_vt_pic%2f0%2fmzc00200lz3jdut1617767264028%2f0&ehk=t7kjfYMyyQjvZGLQZgzO7tw6ssVVG1FlJY9ovxGfI1U%3d&risl=&pid=ImgRaw&r=0',
-                episodes: [
-                    { title: 'EP 01', src: 'https://v16.toutiao50.com/b7167ee352b8f19ee895ff0dcd77ae65/692297a4/video/tos/alisg/tos-alisg-v-0051c001-sg/oETDmfKpHgZNDfCJAb9EAbBQVBlFI9wGopqrPE/?a=1233&bti=Nzg3NWYzLTQ6&ch=0&cr=0&dr=0&er=0&lr=default&cd=0%7C0%7C0%7C0&br=2812&bt=1406&ds=4&ft=.bvrXInz7ThqgyCPXq8Zmo&mime_type=video_mp4&qs=13&rc=am5wcng5cjlkNTMzODYzNEBpam5wcng5cjlkNTMzODYzNEBtNG1uMmRzaV5hLS1kMC1zYSNtNG1uMmRzaV5hLS1kMC1zcw%3D%3D&vvpl=1&l=20251122112100B4E16A0A265446FDB83F&btag=600068000&vid=v10033g50000d2aal6vog65uqopm7kpg' },
-                    { title: 'EP 02', src: 'https://v3-web.douyinvod.com/d72be2cc82696e9b31408618f3be6ea2/69219ddd/video/tos/cn/tos-cn-ve-15c000-ce/o84Fee9AfV8GBicGAH52qLeEDuTL5wIjAgYRhL/?a=6383&ch=4&cr=3&dr=0&lr=all&cd=0%7C0%7C0%7C3&cv=1&br=950&bt=950&cs=0&ds=4&ft=AJkeU_TERR0sTHC4NDv2Nc0iPMgzbL_J-P-U_4w55SiJNv7TGW&mime_type=video_mp4&qs=0&rc=aTc5O2czODVkNjRkOmRpZ0BpM3V2ZXE5cjRkNjMzbGkzNEAwNV5iMDBiX2ExYF82Ni4yYSNnZG8xMmRjZXJhLS1kLWJzcw%3D%3D&btag=c0000e00010000&cquery=100o_101r_100B_100x_100z&dy_q=1763799964&feature_id=0ea98fd3bdc3c6c14a3d0804cc272721&l=2025112216260415D51F7A7DDAF07084C1&__vid=7565107646841097530' },
+                 episodes: [
+                    { title: 'EP 01', src: 'https://v16.toutiao50.com/b7167ee352b8f19ee895ff0dcd77ae65/692297a4/video/tos/alisg/tos-alisg-v-0051c001-sg/oETDmfKpHgZNDfCJAb9EAbBQVBlFI9wGopqrPE/?a=1233&bti=Nzg3NWYzLTQ6&ch=0&cr=0&dr=0&er=0&lr=default&cd=0%7C0%7C0%7C0&br=2812&bt=1406&ds=4&ft=.bvrXInz7ThqgyCPXq8Zmo&mime_type=video_mp4&qs=13&rc=am5wcng5cjlkNTMzODYzNEBpam5wcng5cjlkNTMzODYzNEBtNG1uMmRzaV5hLS1kMC1zYSNtNG1uMmRzaV5hLS1kMC1zcw%3D%3D&vvpl=1&l=20251122112100B4E16A0A265446FDB83F&btag=600068000&vid=v10033g50000d2aal6vog65uqopm7kpg'},
                 ]
             },
-            //以上为影视
             {
                 id: 1, type: 'game', title: '地铁跑酷',
                 desc: '经典的跑酷游戏，看看你能跑多远吧！',
@@ -710,7 +687,6 @@
                 cover: 'https://subway-surfers.gg/images/games/granny-horror.png',
                 src: 'https://subway-surfers.gg/zh-CN/granny-horror'
             },
-            //以上为游戏
             {
                 id: 1, type: 'music', title: '愿与愁-林俊杰',
                 desc: ' 漫天风雪我陪你颤抖 我们别回头',
@@ -721,28 +697,23 @@
                 id: 2, type: 'music', title: '不死之身-林俊杰',
                 desc: ' 撑着悲伤不回头 却感觉此刻你停不了的泪流',
                 cover: 'https://cdn.pixabay.com/photo/2022/06/13/15/23/art-7260232_1280.jpg',
-                src: 'https://gitee.com/yangsangalter/music/raw/master/%E4%B8%8D%E6%AD%BB%E4%B9%8B%E8%BA%AB-%E6%9E%97%E4%BF%8A%E6%9D%B0.mp3',
+                src: ' https://gitee.com/yangsangalter/music/raw/master/%E4%B8%8D%E6%AD%BB%E4%B9%8B%E8%BA%AB-%E6%9E%97%E4%BF%8A%E6%9D%B0.mp3',
             },
             {
                 id: 3, type: 'music', title: '茉莉雨-林俊杰',
                 desc: '古镇老墙添绿 又一年过去',
                 cover: 'https://picb1.photophoto.cn/12/995/12995561_1.jpg',
                 src: 'https://gitee.com/yangsangalter/music/raw/master/%E8%8C%89%E8%8E%89%E9%9B%A8-%E6%9E%97%E4%BF%8A%E6%9D%B0.mp3'
-            }//以上为音乐
-
-
-
+            }
         ];
 
-        /* ================= 核心逻辑 ================= */
         const app = {
-            filterType: 'video', // 默认从 'video' 开始
+            filterType: 'video',
             page: 1,
-            perPage: 6, // 每页显示 6 个
+            perPage: 6,
             audio: null,
 
             init() {
-                // 确保 Video 按钮默认是 active 的
                 document.querySelector('.nav-item').classList.add('active');
                 this.render();
             },
@@ -750,19 +721,15 @@
             filter(type) {
                 this.filterType = type;
                 this.page = 1;
-                // 更新按钮状态
                 document.querySelectorAll('.nav-pills .nav-item').forEach(btn => btn.classList.remove('active'));
-                // 使用 event.target 找到被点击的按钮并激活
                 if (event.target.classList.contains('nav-item')) {
                     event.target.classList.add('active');
                 } else {
-                    // 容错处理：如果调用不是来自点击事件，则通过 type 查找
                     document.querySelector(`.nav-item[onclick*="'${type}'"]`).classList.add('active');
                 }
                 this.render();
             },
 
-            // 新增：直接设置页码
             setPage(newPage) {
                 this.page = newPage;
                 this.render();
@@ -774,18 +741,15 @@
                 grid.innerHTML = '';
                 pagination.innerHTML = '';
 
-                // 过滤与分页
                 const filtered = db.filter(i => i.type === this.filterType);
                 const totalPages = Math.ceil(filtered.length / this.perPage);
                 const start = (this.page - 1) * this.perPage;
                 const items = filtered.slice(start, start + this.perPage);
 
-                // 生成卡片
                 items.forEach(item => {
                     const card = document.createElement('div');
                     card.className = 'card';
 
-                    // 徽章逻辑
                     let badge = '';
                     if (item.type === 'video') badge = 'TV / MOVIE';
                     if (item.type === 'game') badge = 'GAME';
@@ -805,15 +769,12 @@
                         </div>
                     `;
 
-                    // 绑定事件
                     card.onclick = () => this.openModal(item);
-                    this.addTiltEffect(card); // 添加3D倾斜效果
+                    this.addTiltEffect(card);
                     grid.appendChild(card);
                 });
 
-                // 生成分页控件 (只有在页数大于1时才显示)
                 if (totalPages > 1) {
-                    // 上一页按钮
                     const prevBtn = document.createElement('button');
                     prevBtn.className = 'page-btn';
                     prevBtn.innerHTML = '<i class="fa-solid fa-chevron-left"></i>';
@@ -821,7 +782,6 @@
                     prevBtn.onclick = () => this.setPage(this.page - 1);
                     pagination.appendChild(prevBtn);
 
-                    // 分页点
                     const dotsWrapper = document.createElement('div');
                     dotsWrapper.className = 'page-dots';
                     for (let i = 1; i <= totalPages; i++) {
@@ -832,7 +792,6 @@
                     }
                     pagination.appendChild(dotsWrapper);
 
-                    // 下一页按钮
                     const nextBtn = document.createElement('button');
                     nextBtn.className = 'page-btn';
                     nextBtn.innerHTML = '<i class="fa-solid fa-chevron-right"></i>';
@@ -842,7 +801,6 @@
                 }
             },
 
-            // 核心交互：3D 倾斜效果 (复刻自参考代码)
             addTiltEffect(card) {
                 card.addEventListener('mousemove', (e) => {
                     const rect = card.getBoundingClientRect();
@@ -850,7 +808,6 @@
                     const y = e.clientY - rect.top;
                     const centerX = rect.width / 2;
                     const centerY = rect.height / 2;
-                    // 计算旋转角度，除以20是为了让旋转更自然，不要太剧烈
                     const rotateX = ((y - centerY) / centerY) * -8;
                     const rotateY = ((x - centerX) / centerX) * 8;
                     card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
@@ -861,11 +818,10 @@
                 });
             },
 
-            // 打开模态框
             openModal(item) {
                 const backdrop = document.getElementById('modal');
                 const content = document.getElementById('modal-content');
-                content.innerHTML = ''; // 清空
+                content.innerHTML = '';
 
                 if (item.type === 'video') this.renderVideo(item, content);
                 if (item.type === 'game') this.renderGame(item, content);
@@ -879,8 +835,6 @@
                 if (this.audio) { this.audio.pause(); this.audio = null; }
                 setTimeout(() => { document.getElementById('modal-content').innerHTML = ''; }, 400);
             },
-
-            // === 具体的播放器渲染逻辑 (保持原样) ===
 
             renderVideo(item, container) {
                 const html = `
@@ -916,43 +870,34 @@
                 container.innerHTML = `<div class="game-layout"><iframe src="${item.src}" class="game-frame" allowfullscreen></iframe></div>`;
             },
 
-            // 修改renderMusic方法，使用video元素替代audio元素
             renderMusic(item, container) {
-                // 创建隐藏的video元素用于播放视频音频
-                const video = document.createElement('video');
-                video.src = item.src; // 这里的src可以是视频链接了
-                video.style.display = 'none'; // 隐藏视频画面
-                document.body.appendChild(video);
-                this.audio = video; // 保持原有变量名，兼容现有控制逻辑
-
+                this.audio = new Audio(item.src);
                 const html = `
-        <div class="music-layout">
-            <div class="music-bg-glow" style="--glow-color: ${item.color || '#aaa'}"></div>
-            <div class="music-container">
-                <img src="${item.cover}" class="album-art">
-                <div class="music-controls">
-                    <div class="music-title">${item.title}</div>
-                    <div class="music-artist">${item.desc}</div>
-                    <div class="prog-track" id="pTrack"><div class="prog-fill" id="pFill"></div></div>
-                    <div class="btn-group">
-                        <button class="btn-ctrl"><i class="fa-solid fa-backward-step"></i></button>
-                        <button class="btn-ctrl btn-play-lg" id="pBtn" onclick="app.toggleMusic()"><i class="fa-solid fa-play"></i></button>
-                        <button class="btn-ctrl"><i class="fa-solid fa-forward-step"></i></button>
+                    <div class="music-layout">
+                        <div class="music-bg-glow" style="--glow-color: ${item.color || '#aaa'}"></div>
+                        <div class="music-container">
+                            <img src="${item.cover}" class="album-art">
+                            <div class="music-controls">
+                                <div class="music-title">${item.title}</div>
+                                <div class="music-artist">${item.desc}</div>
+                                <div class="prog-track" id="pTrack"><div class="prog-fill" id="pFill"></div></div>
+                                <div class="btn-group">
+                                    <button class="btn-ctrl"><i class="fa-solid fa-backward-step"></i></button>
+                                    <button class="btn-ctrl btn-play-lg" id="pBtn" onclick="app.toggleMusic()"><i class="fa-solid fa-play"></i></button>
+                                    <button class="btn-ctrl"><i class="fa-solid fa-forward-step"></i></button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    `;
+                `;
                 container.innerHTML = html;
 
-                // 时间更新事件保持不变
                 this.audio.addEventListener('timeupdate', () => {
                     if (!this.audio) return;
                     const pct = (this.audio.currentTime / this.audio.duration) * 100;
                     document.getElementById('pFill').style.width = pct + '%';
                 });
 
-                // 进度条点击事件保持不变
                 setTimeout(() => {
                     document.getElementById('pTrack').addEventListener('click', (e) => {
                         const w = e.currentTarget.clientWidth;
@@ -962,19 +907,6 @@
                 }, 100);
             },
 
-            // closeModal方法中添加移除video元素的逻辑
-            closeModal() {
-                document.getElementById('modal').classList.remove('active');
-                if (this.audio) {
-                    this.audio.pause();
-                    // 如果是video元素则从DOM中移除
-                    if (this.audio.tagName === 'VIDEO') {
-                        this.audio.remove();
-                    }
-                    this.audio = null;
-                }
-                setTimeout(() => { document.getElementById('modal-content').innerHTML = ''; }, 400);
-            },
             toggleMusic() {
                 const btn = document.getElementById('pBtn');
                 const wrap = document.querySelector('.music-layout');
@@ -990,7 +922,6 @@
             }
         };
 
-        // 启动
         app.init();
 
     </script>
