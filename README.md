@@ -1,2 +1,1 @@
-# chipchick666.github.io
-自己的网站
+个人练习
