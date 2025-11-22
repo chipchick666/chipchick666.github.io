@@ -4,675 +4,996 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MoeStation | 探索放松的次元</title>
+    <title>NEON PLAYGROUND | 沉浸式娱乐</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    animation: {
-                        'float-slow': 'float 6s ease-in-out infinite',
-                        'blob-move': 'move 20s infinite alternate',
-                        // spin-slow 动画定义保留，以防用户后续想用于其他元素
-                        'spin-slow': 'spin 10s linear infinite', 
-                        'pop-in': 'modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
-                    },
-                    keyframes: {
-                        move: {
-                            '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
-                            '50%': { transform: 'translate(20px, -20px) scale(1.1)' }
-                        },
-                        float: {
-                            '0%': { transform: 'translateY(0px)' },
-                            '50%': { transform: 'translateY(-10px)' },
-                            '100%': { transform: 'translateY(0px)' }
-                        },
-                        breathe: {
-                            '0%, 100%': { transform: 'scale(1)', 'box-shadow': '0 4px 6px -1px rgba(0, 0, 0, 0.1)' },
-                            '50%': { transform: 'scale(1.02)', 'box-shadow': '0 10px 15px -3px rgba(236, 72, 153, 0.3)' }
-                        },
-                        modalPop: {
-                            '0%': { opacity: 0, transform: 'scale(0.8)' },
-                            '100%': { opacity: 1, transform: 'scale(1)' }
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-
-    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@300;500;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Nunito:wght@400;700&display=swap"
         rel="stylesheet">
-
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* --- 全局设置与拟态效果 --- */
-        body {
-            font-family: 'M PLUS Rounded 1c', sans-serif;
-            background-image: url("冥想引导.png");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            position: relative;
-            min-height: 100vh;
-            overflow-x: hidden;
-            color: #4a5568;
+        /* ================= 1. 核心变量与背景 (Neon Style) ================= */
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.45);
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            --accent-color: #FF6B6B;
+            --text-main: #2D3436;
+            --font-main: 'Nunito', sans-serif;
+            --font-heading: 'Fredoka', sans-serif;
+            --anim-speed: 0.3s;
         }
 
-        body::before {
-            content: "";
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: var(--font-main);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            /* 动态流体背景 */
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* ================= 2. 头部与导航 (Neon Style) ================= */
+        header {
+            text-align: center;
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto 30px;
+            padding: 25px;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 头部光效 */
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 70%);
+            opacity: 0.4;
+            transform: rotate(30deg);
+            pointer-events: none;
+        }
+
+        h1 {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            color: #FFF;
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            color: #FFF;
+            font-weight: 700;
+            letter-spacing: 1px;
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        /* 胶囊导航 */
+        .nav-pills {
+            display: flex;
+            background: rgba(255, 255, 255, 0.3);
+            padding: 6px;
+            border-radius: 50px;
+            gap: 10px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-item {
+            padding: 10px 28px;
+            border-radius: 40px;
+            border: none;
+            background: transparent;
+            color: #FFF;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .nav-item.active {
+            background: #FFF;
+            color: var(--accent-color);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transform: scale(1.05);
+        }
+
+        .nav-item:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* ================= 3. 卡片与网格 (Neon Style + 3D Tilt) ================= */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            position: relative;
+            z-index: 1;
+            padding-bottom: 60px;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            perspective: 1000px;
+            /* 为3D效果做准备 */
+        }
+
+        .card {
+            background: var(--glass-bg);
+            border-radius: 24px;
+            padding: 15px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            transition: transform 0.1s ease, box-shadow 0.3s ease;
+            /* transform 时间必须短，不然3D跟手感差 */
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            height: 380px;
+            transform-style: preserve-3d;
+            backdrop-filter: blur(10px);
+        }
+
+        .card-image-wrapper {
+            height: 60%;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 18px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover .card-img {
+            transform: scale(1.1);
+        }
+
+        /* 悬浮时的播放按钮遮罩 */
+        .play-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(255, 255, 255, 0.2);
-            z-index: -2;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
-        /* 动态背景泡泡 */
-        .blob {
+        .card:hover .play-overlay {
+            opacity: 1;
+        }
+
+        .play-icon-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transform: scale(0);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .card:hover .play-icon-circle {
+            transform: scale(1);
+        }
+
+        .card-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .badge {
+            align-self: flex-start;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: #FFF;
+            background: var(--accent-color);
+            margin-bottom: 8px;
+            box-shadow: 0 2px 5px rgba(255, 107, 107, 0.3);
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: #333;
+            font-family: var(--font-heading);
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: #555;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* ================= 4. 分页 (Neon Style) ================= */
+        .pagination-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 40px;
+        }
+
+        /* 翻页按钮样式更新 */
+        .page-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.3);
+            color: #333;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            backdrop-filter: blur(5px);
+            font-size: 1.1rem;
+            /* 增加图标大小 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .page-btn:hover:not(:disabled) {
+            background: var(--accent-color);
+            color: white;
+            border-color: transparent;
+        }
+
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .page-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .dot.active {
+            background: var(--accent-color);
+            transform: scale(1.3);
+            box-shadow: 0 0 8px var(--accent-color);
+        }
+
+        /* ================= 5. 模态框 (保留原播放器功能) ================= */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(12px);
+            /* 背景模糊 */
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-backdrop.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* 模态框容器：依然保持白色背景，保证播放器UI清晰 */
+        .modal-window {
+            width: 90%;
+            max-width: 1000px;
+            height: 80vh;
+            background: #fff;
+            border-radius: 32px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.3);
+            transform: scale(0.9) translateY(50px);
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-backdrop.active .modal-window {
+            transform: scale(1) translateY(0);
+        }
+
+        .close-btn {
             position: absolute;
-            filter: blur(50px);
-            z-index: -1;
-            opacity: 0.6;
-            mix-blend-mode: multiply;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.05);
+            border: none;
+            cursor: pointer;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #555;
+            transition: 0.2s;
         }
 
-        /* 玻璃卡片基类 */
-        .moe-card {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(15px);
-            border: 2px solid rgba(255, 255, 255, 0.9);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            transform-style: preserve-3d;
+        .close-btn:hover {
+            background: var(--accent-color);
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        /* ================= 播放器内部布局 (复刻上一版的iOS布局) ================= */
+        /* 视频布局 */
+        .video-layout {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            background: #000;
+        }
+
+        .video-main {
+            flex: 3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: black;
+        }
+
+        .video-sidebar {
+            flex: 1;
+            background: #f9f9f9;
+            padding: 30px;
+            border-left: 1px solid #eee;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ep-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .ep-item {
+            padding: 8px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .ep-item:hover,
+        .ep-item.active {
+            background: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+
+        /* 游戏布局 */
+        .game-layout {
+            width: 100%;
+            height: 100%;
+            background: #000;
+        }
+
+        iframe.game-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* 音乐布局 (保留 Apple Music 风格) */
+        .music-layout {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* 背景保持干净，和霓虹主页形成对比，突出内容 */
+            background: linear-gradient(135deg, #ffffff 0%, #f2f2f7 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 动态背景光晕 */
+        .music-bg-glow {
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: radial-gradient(circle, var(--glow-color, #ccc) 0%, transparent 60%);
+            opacity: 0.15;
+            filter: blur(80px);
+            z-index: 0;
+            animation: pulse 8s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            100% {
+                transform: scale(1.1);
+            }
+        }
+
+        .music-container {
+            z-index: 2;
+            display: flex;
+            gap: 50px;
+            align-items: center;
+            max-width: 900px;
+            width: 90%;
+        }
+
+        .album-art {
+            width: 300px;
+            height: 300px;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.2);
+            object-fit: cover;
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .music-playing .album-art {
+            transform: scale(1.05);
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.3);
+        }
+
+        .music-controls {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .music-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 5px;
+            color: #1d1d1f;
+            font-family: var(--font-main);
+        }
+
+        .music-artist {
+            font-size: 1.1rem;
+            color: #86868b;
+            margin-bottom: 30px;
+        }
+
+        /* 进度条 */
+        .prog-track {
+            width: 100%;
+            height: 6px;
+            background: rgba(0, 0, 0, 0.06);
+            border-radius: 10px;
+            margin-bottom: 30px;
+            position: relative;
             cursor: pointer;
         }
 
-        .moe-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            border-color: #F472B6;
-            box-shadow: 0 25px 50px -12px rgba(244, 114, 182, 0.6);
-        }
-
-        .moe-card img {
-            transition: transform 0.5s ease;
-        }
-
-        .moe-card:hover img {
-            transform: scale(1.05);
-        }
-
-        /* 标签筛选器激活态呼吸动画 */
-        .filter-btn.active {
-            animation: breathe 3s infinite ease-in-out;
-            background-color: white !important;
-            color: #db2777 !important;
-            border-color: #db2777 !important;
-            box-shadow: 0 4px 15px rgba(219, 39, 119, 0.3);
-        }
-
-        /* 滚动条美化 */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.5);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(to bottom, #F472B6, #A78BFA);
+        .prog-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background: #333;
             border-radius: 10px;
+            transition: width 0.1s linear;
         }
 
-        /* 卡片淡入动画（修复卡片不显示的问题） */
-        @keyframes fadeInPop {
-            from { opacity: 0; transform: translateY(10px) scale(0.98); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+        /* 按钮组 */
+        .btn-group {
+            display: flex;
+            align-items: center;
+            gap: 30px;
         }
 
-        .card-fade-in {
-            animation: fadeInPop 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-            opacity: 0;
+        .btn-ctrl {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #333;
+            cursor: pointer;
+            transition: 0.2s;
         }
 
-        /* 播放器内音频控件美化 (可选，兼容性一般，但可以提升视觉一致性) */
-        #player-container audio {
-            /* 尝试调整原生控件的宽度和边距 */
-            width: 100%;
-            max-width: 400px;
-            margin: 20px 0;
+        .btn-ctrl:hover {
+            transform: scale(1.1);
+            color: var(--accent-color);
         }
-        
-        /* 针对音乐播放器模态框的定制样式 */
-        #player-modal .bg-music-dark {
-            /* 统一深色背景，模仿 Apple Music */
-            background-color: #121212; 
+
+        .btn-play-lg {
+            width: 70px;
+            height: 70px;
+            background: #1d1d1f;
+            border-radius: 50%;
+            color: white;
+            font-size: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-play-lg:hover {
+            transform: scale(1.08);
+            background: #000;
+        }
+
+        @media (max-width: 768px) {
+            .music-container {
+                flex-direction: column;
+                text-align: center;
+                gap: 30px;
+            }
+
+            .album-art {
+                width: 220px;
+                height: 220px;
+            }
+
+            .btn-group {
+                justify-content: center;
+            }
+
+            .video-layout {
+                flex-direction: column;
+            }
+
+            .video-main {
+                height: 40%;
+                flex: none;
+            }
+
+            .video-sidebar {
+                height: 60%;
+                width: 100%;
+                border-left: none;
+            }
         }
     </style>
 </head>
 
-<body class="antialiased selection:bg-pink-200 selection:text-pink-900">
+<body>
 
-    <div class="blob bg-purple-300 w-96 h-96 rounded-full top-10 left-10 animate-blob-move"></div>
-    <div class="blob bg-yellow-200 w-80 h-80 rounded-full top-1/4 right-5 animate-blob-move animation-delay-2000"></div>
-    <div class="blob bg-pink-300 w-72 h-72 rounded-full bottom-10 left-1/3 animate-blob-move animation-delay-4000"></div>
+    <header>
+        <h1>NEON PLAYGROUND</h1>
+        <div class="subtitle">WATCH · LISTEN · PLAY</div>
+    </header>
 
-    <div class="container mx-auto px-4 py-10 relative z-10 max-w-7xl">
+    <nav class="nav-pills">
+        <button class="nav-item active" onclick="app.filter('video')">Video</button>
+        <button class="nav-item" onclick="app.filter('music')">Music</button>
+        <button class="nav-item" onclick="app.filter('game')">Game</button>
+    </nav>
 
-        <header class="text-center mb-16 relative">
-            <div class="inline-block animate-float-slow">
-                <h1
-                    class="text-6xl md:text-8xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-600 to-indigo-700 mb-4 tracking-tighter"
-                    style="line-height: 1.1; text-shadow: 0 4px 10px rgba(0,0,0,0.15);">
-                    Moe Station
-                </h1>
-            </div>
-            <p class="text-slate-700 text-xl font-medium tracking-wider mt-3 text-shadow-sm">
-                放松一下吧，进入您的专属次元 ✨
-            </p>
-        </header>
-
-        <div class="flex flex-wrap justify-center gap-3 mb-12">
-            <button onclick="setCategory('all')" id="btn-all"
-                class="filter-btn active px-6 py-2 rounded-full border-2 border-pink-500 bg-white text-pink-600 font-bold transition-all duration-300 shadow-lg hover:shadow-xl flex items-center gap-2 text-sm md:text-base">
-                <i data-lucide="sparkles" class="w-4 h-4"></i> 全部次元
-            </button>
-            <button onclick="setCategory('video')" id="btn-video"
-                class="filter-btn px-6 py-2 rounded-full border-2 border-transparent hover:border-blue-400 bg-white/70 text-slate-600 font-bold transition-all duration-300 shadow-md hover:shadow-lg flex items-center gap-2 text-sm md:text-base">
-                <i data-lucide="tv" class="w-4 h-4"></i> 追番影视
-            </button>
-            <button onclick="setCategory('music')" id="btn-music"
-                class="filter-btn px-6 py-2 rounded-full border-2 border-transparent hover:border-green-400 bg-white/70 text-slate-600 font-bold transition-all duration-300 shadow-md hover:shadow-lg flex items-center gap-2 text-sm md:text-base">
-                <i data-lucide="headphones" class="w-4 h-4"></i> 听歌放松
-            </button>
-            <button onclick="setCategory('game')" id="btn-game"
-                class="filter-btn px-6 py-2 rounded-full border-2 border-transparent hover:border-purple-400 bg-white/70 text-slate-600 font-bold transition-all duration-300 shadow-md hover:shadow-lg flex items-center gap-2 text-sm md:text-base">
-                <i data-lucide="gamepad-2" class="w-4 h-4"></i> 摸鱼游戏
-            </button>
+    <div class="container">
+        <div class="content-grid" id="grid">
         </div>
 
-        <div id="content-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 px-2">
-            </div>
-
-        <div class="flex justify-center items-center mt-16 gap-4">
-            <button onclick="changePage(-1)"
-                class="w-12 h-12 rounded-full bg-white shadow-xl flex items-center justify-center text-pink-500 hover:bg-pink-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                id="prev-btn">
-                <i data-lucide="chevron-left" class="w-6 h-6"></i>
-            </button>
-            <span id="page-indicator"
-                class="font-extrabold text-lg text-slate-700 bg-white/80 px-6 py-2 rounded-full backdrop-blur-sm shadow-inner min-w-[80px] text-center">
-                1 / 1
-            </span>
-            <button onclick="changePage(1)"
-                class="w-12 h-12 rounded-full bg-white shadow-xl flex items-center justify-center text-pink-500 hover:bg-pink-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                id="next-btn">
-                <i data-lucide="chevron-right" class="w-6 h-6"></i>
-            </button>
-        </div>
-
-    </div>
-
-    <div id="detail-modal"
-        class="fixed inset-0 z-50 flex items-center justify-center hidden p-4 transition-opacity duration-300">
-        <div class="absolute inset-0 bg-black/50 backdrop-blur-md transition-opacity" onclick="closeDetail()"></div>
-
-        <div
-            class="relative moe-card rounded-3xl shadow-2xl w-full max-w-4xl modal-enter flex flex-col transform-none"
-            style="max-height: 95vh;">
-
-            <div
-                class="flex justify-between items-center p-4 md:p-6 border-b border-gray-100 bg-gradient-to-r from-pink-50 to-purple-50 flex-shrink-0">
-                <div class="flex items-center gap-3">
-                    <span id="detail-icon"
-                        class="p-2 bg-white rounded-xl shadow-lg text-pink-500 border border-pink-200"></span>
-                    <h3 id="detail-title" class="text-xl md:text-3xl font-bold text-slate-700 truncate">标题详情</h3>
-                </div>
-                <button onclick="closeDetail()"
-                    class="p-2 rounded-full hover:bg-red-100 text-slate-400 hover:text-red-500 transition-colors">
-                    <i data-lucide="x" class="w-6 h-6"></i>
-                </button>
-            </div>
-
-            <div class="p-6 md:p-8 overflow-y-auto flex-1">
-                <div class="flex flex-col md:flex-row gap-6">
-                    <div class="md:w-1/3 flex-shrink-0">
-                        <img id="detail-cover" src="" alt="封面"
-                            class="w-full h-auto rounded-2xl shadow-xl mb-4 object-cover border-2 border-pink-100">
-                        <p class="text-sm font-semibold text-slate-600">类型: <span id="detail-type"
-                                class="font-bold text-pink-500 ml-1"></span></p>
-                    </div>
-
-                    <div class="md:w-2/3">
-                        <h4 class="text-2xl font-bold text-slate-700 mb-3 border-b-2 border-pink-100 pb-2">简介</h4>
-                        <p id="detail-desc" class="text-slate-600 mb-6 leading-relaxed text-base"></p>
-
-                        <div id="detail-action-area">
-                            <h4 id="action-header"
-                                class="text-2xl font-bold text-slate-700 mb-3 border-b-2 border-pink-100 pb-2"></h4>
-
-                            <button id="single-play-btn" onclick="startPlayback(null)"
-                                class="w-full py-4 rounded-xl text-white font-extrabold shadow-lg flex items-center justify-center gap-2 hidden
-                                bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-[1.01]">
-                                <i data-lucide="play-circle" class="w-5 h-5"></i> 立即开始
-                            </button>
-
-                            <div id="episodes-list"
-                                class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 max-h-60 overflow-y-auto p-2 border border-gray-200 rounded-xl bg-white/70">
-                                </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+        <div class="pagination-wrapper" id="pagination">
         </div>
     </div>
 
-
-    <div id="player-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden p-2 md:p-8">
-        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity" onclick="closePlayer()"></div>
-
-        <div
-            class="relative bg-white rounded-xl md:rounded-3xl shadow-2xl w-full max-w-5xl overflow-hidden modal-enter flex flex-col"
-            style="max-height: 95vh;">
-
-            <div
-                class="flex justify-between items-center p-3 md:p-4 border-b border-gray-100 bg-gradient-to-r from-pink-50 to-purple-50 flex-shrink-0">
-                <div class="flex items-center gap-2">
-                    <span id="modal-icon"
-                        class="p-2 bg-white rounded-full shadow-sm text-pink-500 border border-pink-200"></span>
-                    <h3 id="modal-title" class="text-base md:text-xl font-bold text-slate-700 truncate">标题</h3>
-                </div>
-                <button onclick="closePlayer()"
-                    class="p-2 rounded-full hover:bg-red-100 text-slate-400 hover:text-red-500 transition-colors">
-                    <i data-lucide="x" class="w-5 h-5"></i>
-                </button>
-            </div>
-
-            <div id="player-container"
-                class="flex-1 bg-black flex items-center justify-center relative overflow-hidden w-full"
-                style="min-height: 200px;">
-                <div class="text-white animate-pulse">加载中...</div>
-            </div>
-
-            <div class="p-3 md:p-4 bg-white text-sm text-slate-500 flex-shrink-0">
-                <p id="modal-desc" class="truncate">这里是描述信息...</p>
-            </div>
+    <div class="modal-backdrop" id="modal">
+        <div class="modal-window">
+            <button class="close-btn" onclick="app.closeModal()"><i class="fa-solid fa-xmark"></i></button>
+            <div id="modal-content" style="width: 100%; height: 100%;"></div>
         </div>
     </div>
 
     <script>
-        /**
-         * ==========================================
-         * 数据库结构
-         * ==========================================
-         */
-        const database = [
+
+        const db = [
             {
-                id: 1,
-                type: 'video',
-                title: '星之子 - 动漫全集 (多集示例)',
-                desc: '木叶飞舞之处，火亦生生不息。这是一部关于勇气、友谊和成长的热血动漫，每一集都充满了惊喜和感动。',
-                cover: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=600&auto=format&fit=crop',
-                episodes: [ // 剧集列表
-                    { title: '第1话：启程之星', src: 'https://acgfta.com/play/2916-2-1.html' },
-                    { title: '第2话：命运交织', src: 'https://www.w3schools.com/html/mov_bbb.mp4' },
-                    { title: '第3话：伙伴誓约', src: 'https://www.w3schools.com/html/mov_bbb.mp4' },
-                    { title: '第4话：试炼之塔', src: 'https://acgfta.com/play/2916-2-1.html' },
-                    { title: '第5话：觉醒之力', src: 'https://www.w3schools.com/html/mov_bbb.mp4' },
+                id: 1, type: 'video', title: '火影忍者剧场版 终章',
+                desc: '第四次忍界大战结束的两年后，此时此刻的漩涡鸣人早已成为盖世英雄一般的人物，无论他走到哪里都受到女孩子和小朋友的喜爱与追捧，他似乎也有其享受这样喧嚣欢闹的氛围。与之相对，壁花小姐日向雏田则始终站在角落里，默默注视着这个她喜欢了多年的男孩子。雏田亲手为鸣人织了围巾，怎奈无法鼓足勇气交给对方，喜欢的话语更难以说出口。某个夜晚，雏田的妹妹花火遭到不明身份之人劫持，带火的陨石则落在附近的山坡之上。为了救回花火，阻止地球毁灭，鸣人、雏田、小樱、鹿丸和佐井奉命前去调查舍人的真身。',
+                cover: 'https://ts1.tc.mm.bing.net/th/id/R-C.580d94b5d6ade886dcb591a11f080443?rik=m6kGhtYgF2CfRQ&riu=http%3a%2f%2fclubimg.club.vmall.com%2fdata%2fattachment%2fforum%2f201907%2f31%2f0102130aijui07eervow6b.jpg&ehk=WuZ40XJSwxQp06qRSGapGS36AqqnbA264q89pDqtvcE%3d&risl=&pid=ImgRaw&r=0',
+                episodes: [
+                    { title: 'EP 01', src: 'https://upos-sz-mirror08c.bilivideo.com/upgcxcode/47/48/1163184847/1163184847-1-100026.m4s?e=ig8euxZM2rNcNbdlhoNvNC8BqJIzNbfqXBvEqxTEto8BTrNvN0GvT90W5JZMkX_YN0MvXg8gNEV4NC8xNEV4N03eN0B5tZlqNxTEto8BTrNvNeZVuJ10Kj_g2UB02J0mN0B5tZlqNCNEto8BTrNvNC7MTX502C8f2jmMQJ6mqF2fka1mqx6gqj0eN0B599M=&uipk=5&mid=3494361121687763&og=hw&deadline=1763804858&platform=pc&trid=efb26ae67ffe44b0a3f32b7d1054e4fu&gen=playurlv3&os=08cbv&nbs=1&oi=1973053985&upsig=7939969263be403bc3c9c6f33abbb823&uparams=e,uipk,mid,og,deadline,platform,trid,gen,os,nbs,oi&bvc=vod&nettype=0&bw=181261&buvid=109D3FE0-1442-269F-10BD-A18583AFA2AE24301infoc&build=0&dl=0&f=u_0_0&agrr=1&orderid=0,3' },
                 ]
             },
             {
-                id: 2,
-                type: 'game',
-                title: '地铁跑酷',
-                desc: '经典的跑酷游戏，看看你能跑多远吧！在繁忙的地铁轨道上奔跑、跳跃、躲避，挑战你的极限反应能力。',
-                cover: 'https://images.unsplash.com/photo-1551103782-8ab07afd45c1?q=80&w=600&auto=format&fit=crop',
-                src: 'https://subway-surfers.gg/zh-CN/' // 外部游戏链接
+                id: 2, type: 'video', title: '鬼灭之刃 柱众会议·蝶屋敷篇',
+                desc: '本作为由TV动画《鬼灭之刃》22-26话整合而成的特别上映版。主人公炭治郎身为鬼杀队队员却依旧带着成为鬼的妹妹·祢豆子一同行动，这一违反队规的行为在柱合会议上被鬼杀队的“柱”们审判。在那田蜘蛛山负伤的炭治郎与善逸伊之助一起被带去了蝶屋，过上了一边治疗一边修行的日子。',
+                cover: 'https://ts1.tc.mm.bing.net/th/id/R-C.39d68509f9574cbefcc14a8c229a1f65?rik=6q6WOieeP0bN4A&riu=http%3a%2f%2fpic.qianye88.com%2fpic%2f8803fe0a720680f947bb97510474cff0.jpg&ehk=9AGftnH4AOWOvFzzTTUx7BSiwamezkQUAHu60x03T14%3d&risl=&pid=ImgRaw&r=0',
+                episodes: [
+                    { title: 'EP 01', src: 'https://v16.toutiao50.com/72e48d5324f126a2b07c51d6e7a266a4/6922876b/video/tos/alisg/tos-alisg-v-90231e-sg/oIVtNoAdtBhAIBB7VaGtvAEgiFOiaELUUY071/' }
+                ]
             },
             {
-                id: 3,
-                type: 'music',
-                title: '愿与愁',
-                desc: '漫天风雪我陪你颤抖，我们别回头。一首充满力量与柔情的歌曲，适合在夜晚静静聆听。',
-                cover: 'https://images.unsplash.com/photo-1517457210348-2cb739db86a2?q=80&w=600&auto=format&fit=crop',
-                src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' // 示例音频
+                id: 2, type: 'video', title: '名侦探柯南 侦探们的镇魂歌',
+                desc: '一天毛利小五郎收到一张请帖，里面是谜样男子的委托，需要前往横滨的一个游乐场。小五郎和柯南一行人快乐地到达欢乐的游乐场，还带上了可以出入无阻代表VIP的手表，不料正中那名神秘男子的圈套。所有带上手表的人不得离开游乐场，否则便会发生爆炸。从现在开始到晚上十点，柯南和小五郎如果不能解开谜题，兰和少年侦探团也会随着游乐园粉身碎骨。然而更意想不到的是，那名男子居然直接称呼柯南为工藤新一。',
+                cover: 'https://ts1.tc.mm.bing.net/th/id/R-C.754a68d936c3944337744be2e7563ba4?rik=7u3cMeL8YRRnXw&riu=http%3a%2f%2fpuui.qpic.cn%2fvcover_vt_pic%2f0%2fmzc00200lz3jdut1617767264028%2f0&ehk=t7kjfYMyyQjvZGLQZgzO7tw6ssVVG1FlJY9ovxGfI1U%3d&risl=&pid=ImgRaw&r=0',
+                episodes: [
+                    { title: 'EP 01', src: 'https://v16.toutiao50.com/b7167ee352b8f19ee895ff0dcd77ae65/692297a4/video/tos/alisg/tos-alisg-v-0051c001-sg/oETDmfKpHgZNDfCJAb9EAbBQVBlFI9wGopqrPE/?a=1233&bti=Nzg3NWYzLTQ6&ch=0&cr=0&dr=0&er=0&lr=default&cd=0%7C0%7C0%7C0&br=2812&bt=1406&ds=4&ft=.bvrXInz7ThqgyCPXq8Zmo&mime_type=video_mp4&qs=13&rc=am5wcng5cjlkNTMzODYzNEBpam5wcng5cjlkNTMzODYzNEBtNG1uMmRzaV5hLS1kMC1zYSNtNG1uMmRzaV5hLS1kMC1zcw%3D%3D&vvpl=1&l=20251122112100B4E16A0A265446FDB83F&btag=600068000&vid=v10033g50000d2aal6vog65uqopm7kpg' },
+                    { title: 'EP 02', src: 'https://v3-web.douyinvod.com/d72be2cc82696e9b31408618f3be6ea2/69219ddd/video/tos/cn/tos-cn-ve-15c000-ce/o84Fee9AfV8GBicGAH52qLeEDuTL5wIjAgYRhL/?a=6383&ch=4&cr=3&dr=0&lr=all&cd=0%7C0%7C0%7C3&cv=1&br=950&bt=950&cs=0&ds=4&ft=AJkeU_TERR0sTHC4NDv2Nc0iPMgzbL_J-P-U_4w55SiJNv7TGW&mime_type=video_mp4&qs=0&rc=aTc5O2czODVkNjRkOmRpZ0BpM3V2ZXE5cjRkNjMzbGkzNEAwNV5iMDBiX2ExYF82Ni4yYSNnZG8xMmRjZXJhLS1kLWJzcw%3D%3D&btag=c0000e00010000&cquery=100o_101r_100B_100x_100z&dy_q=1763799964&feature_id=0ea98fd3bdc3c6c14a3d0804cc272721&l=2025112216260415D51F7A7DDAF07084C1&__vid=7565107646841097530' },
+                ]
+            },
+            //以上为影视
+            {
+                id: 1, type: 'game', title: '地铁跑酷',
+                desc: '经典的跑酷游戏，看看你能跑多远吧！',
+                cover: 'https://c-ssl.duitang.com/uploads/item/201403/28/20140328185227_wSffu.jpeg',
+                src: 'https://subway-surfers.gg/zh-CN/'
             },
             {
-                id: 4,
-                type: 'video',
-                title: '宇宙的奥秘 (单集视频)',
-                desc: '探索浩瀚的星空，了解宇宙的起源与未来。一部高质量的科普纪录片，带您领略宇宙的壮丽。',
-                cover: 'https://images.unsplash.com/photo-1543722530-d2c320140670?q=80&w=600&auto=format&fit=crop',
-                src: 'https://www.w3schools.com/html/mov_bbb.mp4' // 单集视频源
+                id: 2, type: 'game', title: '冰上冲刺',
+                desc: '你就是下一个滑雪大师！',
+                cover: 'https://subway-surfers.gg/images/games/icy-dash.png',
+                src: 'https://subway-surfers.gg/zh-CN/icy-dash'
             },
             {
-                id: 5,
-                type: 'music',
-                title: '治愈系钢琴曲',
-                desc: '在柔和的琴声中放松身心，忘却烦恼。纯净的钢琴旋律，是冥想和学习的最佳伴侣。',
-                cover: 'https://images.unsplash.com/photo-1510915228308-f1c640e0c0ae?q=80&w=600&auto=format&fit=crop',
-                src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3'
+                id: 3, type: 'game', title: '恐怖奶奶',
+                desc: '让人闻风丧胆的恐怖游戏，胆小慎入！',
+                cover: 'https://subway-surfers.gg/images/games/granny-horror.png',
+                src: 'https://subway-surfers.gg/zh-CN/granny-horror'
+            },
+            //以上为游戏
+            {
+                id: 1, type: 'music', title: '愿与愁-林俊杰',
+                desc: ' 漫天风雪我陪你颤抖 我们别回头',
+                cover: 'https://img.redocn.com/sheji/20231221/yishuchuangyibeijingchahua_13193938.jpg.400.jpg',
+                src: 'https://gitee.com/yangsangalter/music/raw/master/%E6%84%BF%E4%B8%8E%E6%84%81-%E6%9E%97%E4%BF%8A%E6%9D%B0.mp3',
             },
             {
-                id: 6,
-                type: 'game',
-                title: '消消乐大作战',
-                desc: '简单有趣的益智游戏，让你停不下来！通过消除方块来获得高分，挑战你的观察力和策略。',
-                cover: 'https://images.unsplash.com/photo-1554907983-5006b976249a?q=80&w=600&auto=format&fit=crop',
-                src: 'https://g.4399.com/html/436/748/20002130.html' // 外部游戏链接
-            }
+                id: 2, type: 'music', title: '不死之身-林俊杰',
+                desc: ' 撑着悲伤不回头 却感觉此刻你停不了的泪流',
+                cover: 'https://cdn.pixabay.com/photo/2022/06/13/15/23/art-7260232_1280.jpg',
+                src: 'https://gitee.com/yangsangalter/music/raw/master/%E4%B8%8D%E6%AD%BB%E4%B9%8B%E8%BA%AB-%E6%9E%97%E4%BF%8A%E6%9D%B0.mp3',
+            },
+            {
+                id: 3, type: 'music', title: '茉莉雨-林俊杰',
+                desc: '古镇老墙添绿 又一年过去',
+                cover: 'https://picb1.photophoto.cn/12/995/12995561_1.jpg',
+                src: 'https://gitee.com/yangsangalter/music/raw/master/%E8%8C%89%E8%8E%89%E9%9B%A8-%E6%9E%97%E4%BF%8A%E6%9D%B0.mp3'
+            }//以上为音乐
+
+
+
         ];
 
-        // 状态管理 (保持不变)
-        let state = {
-            category: 'all',
-            currentPage: 1,
-            itemsPerPage: 4, 
-            currentDetailId: null
-        };
+        /* ================= 核心逻辑 ================= */
+        const app = {
+            filterType: 'video', // 默认从 'video' 开始
+            page: 1,
+            perPage: 6, // 每页显示 6 个
+            audio: null,
 
-        // 常量映射 (保持不变)
-        const icons = {
-            video: 'clapperboard',
-            music: 'music',
-            game: 'gamepad-2',
-            all: 'sparkles'
-        };
+            init() {
+                // 确保 Video 按钮默认是 active 的
+                document.querySelector('.nav-item').classList.add('active');
+                this.render();
+            },
 
-        const typeColors = {
-            video: 'bg-blue-100 text-blue-600',
-            music: 'bg-green-100 text-green-600',
-            game: 'bg-purple-100 text-purple-600'
-        };
-
-        const typeNames = {
-            video: '影视',
-            music: '音乐',
-            game: '游戏'
-        };
-
-        // 初始化、setCategory, getFilteredData, changePage, renderCards, openDetail, closeDetail 保持不变
-
-        document.addEventListener('DOMContentLoaded', () => {
-            renderCards();
-            lucide.createIcons();
-        });
-
-        function setCategory(cat) {
-            state.category = cat;
-            state.currentPage = 1;
-
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('active', 'bg-white', 'text-pink-600', 'border-pink-500');
-                btn.classList.add('bg-white/70', 'text-slate-600');
-            });
-
-            const activeBtn = document.getElementById(`btn-${cat}`);
-            activeBtn.classList.add('active', 'bg-white', 'text-pink-600', 'border-pink-500');
-            activeBtn.classList.remove('bg-white/70', 'text-slate-600');
-
-            renderCards();
-        }
-
-        function getFilteredData() {
-            if (state.category === 'all') return database;
-            return database.filter(item => item.type === state.category);
-        }
-
-        function changePage(delta) {
-            const filtered = getFilteredData();
-            const maxPage = Math.ceil(filtered.length / state.itemsPerPage);
-            const newPage = state.currentPage + delta;
-
-            if (newPage >= 1 && newPage <= maxPage) {
-                state.currentPage = newPage;
-                renderCards();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        }
-
-        function renderCards() {
-            const grid = document.getElementById('content-grid');
-            grid.innerHTML = '';
-
-            const filtered = getFilteredData();
-            const totalItems = filtered.length;
-            const totalPages = Math.ceil(totalItems / state.itemsPerPage) || 1;
-
-            document.getElementById('page-indicator').innerText = `${state.currentPage} / ${totalPages}`;
-            document.getElementById('prev-btn').disabled = state.currentPage === 1;
-            document.getElementById('next-btn').disabled = state.currentPage === totalPages;
-
-            const start = (state.currentPage - 1) * state.itemsPerPage;
-            const end = start + state.itemsPerPage;
-            const pageItems = filtered.slice(start, end);
-
-            if (pageItems.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center text-slate-400 py-20 text-lg">这里空空如也呢... (｡•́︿•̀｡)</div>`;
-                return;
-            }
-
-            pageItems.forEach((item, index) => {
-                const card = document.createElement('div');
-                card.className = 'moe-card rounded-3xl overflow-hidden flex flex-col h-full relative group card-fade-in';
-                card.style.animationDelay = `${index * 0.1}s`;
-                card.onclick = () => openDetail(item.id);
-
-                let btnText, btnIcon;
-                if (item.type === 'video') {
-                    btnText = item.episodes ? `共 ${item.episodes.length} 集` : '单集视频';
-                    btnIcon = 'file-text';
-                } else if (item.type === 'game') {
-                    btnText = '开始游戏';
-                    btnIcon = 'play';
-                } else if (item.type === 'music') {
-                    btnText = '立即播放';
-                    btnIcon = 'play-circle';
-                }
-
-                card.innerHTML = `
-                    <div class="relative h-48 overflow-hidden">
-                        <img src="${item.cover}" alt="${item.title}" class="w-full h-full object-cover transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/A78BFA/ffffff?text=${typeNames[item.type]}'">
-                        <div class="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold ${typeColors[item.type]} shadow-md">
-                            ${typeNames[item.type]}
-                        </div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    </div>
-                    
-                    <div class="p-5 flex-1 flex flex-col">
-                        <h3 class="text-xl font-bold text-slate-700 mb-2 group-hover:text-pink-600 transition-colors line-clamp-1">${item.title}</h3>
-                        <p class="text-slate-500 text-sm mb-4 flex-1 line-clamp-2 leading-relaxed">${item.desc}</p>
-                        
-                        <div class="w-full py-3 rounded-xl text-white font-bold shadow-lg flex items-center justify-center gap-2 cursor-pointer
-                            bg-gradient-to-r from-pink-500 to-purple-500 transition-all duration-300 transform group-hover:scale-[1.03]">
-                            <i data-lucide="${btnIcon}" class="w-4 h-4"></i> ${btnText}
-                        </div>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-
-            lucide.createIcons();
-        }
-
-        function openDetail(id) {
-            const item = database.find(i => i.id === id);
-            if (!item) return;
-
-            state.currentDetailId = id;
-
-            const modal = document.getElementById('detail-modal');
-            const elements = {
-                title: document.getElementById('detail-title'),
-                desc: document.getElementById('detail-desc'),
-                cover: document.getElementById('detail-cover'),
-                type: document.getElementById('detail-type'),
-                iconContainer: document.getElementById('detail-icon'),
-                episodesList: document.getElementById('episodes-list'),
-                singlePlayBtn: document.getElementById('single-play-btn'),
-                actionHeader: document.getElementById('action-header')
-            };
-
-            elements.title.innerText = item.title;
-            elements.desc.innerText = item.desc;
-            elements.cover.src = item.cover;
-            elements.type.innerText = typeNames[item.type];
-            elements.iconContainer.innerHTML = `<i data-lucide="${icons[item.type]}" class="w-6 h-6"></i>`;
-            
-            elements.episodesList.innerHTML = '';
-            elements.episodesList.classList.add('hidden');
-            elements.singlePlayBtn.classList.add('hidden'); 
-
-            if (item.type === 'video') {
-                const isMultiEpisode = item.episodes && item.episodes.length > 0;
-
-                if (isMultiEpisode) {
-                    elements.actionHeader.innerText = '剧集列表';
-                    elements.episodesList.classList.remove('hidden');
-                    item.episodes.forEach((episode, index) => {
-                        const btn = document.createElement('button');
-                        btn.className = 'btn-episode px-3 py-2 rounded-lg font-medium truncate shadow-sm transition-all duration-200 border border-gray-300 text-gray-700 hover:bg-pink-100 hover:border-pink-500 hover:text-pink-600';
-                        btn.onclick = () => startPlayback(item.id, index);
-                        btn.innerText = episode.title;
-                        elements.episodesList.appendChild(btn);
-                    });
-                } else if (item.src) {
-                    elements.actionHeader.innerText = '立即观看';
-                    elements.singlePlayBtn.innerText = '立即观看';
-                    elements.singlePlayBtn.onclick = () => startPlayback(item.id, null);
-                    elements.singlePlayBtn.classList.remove('hidden');
+            filter(type) {
+                this.filterType = type;
+                this.page = 1;
+                // 更新按钮状态
+                document.querySelectorAll('.nav-pills .nav-item').forEach(btn => btn.classList.remove('active'));
+                // 使用 event.target 找到被点击的按钮并激活
+                if (event.target.classList.contains('nav-item')) {
+                    event.target.classList.add('active');
                 } else {
-                    elements.actionHeader.innerText = '播放信息';
-                    elements.episodesList.classList.remove('hidden');
-                    elements.episodesList.innerHTML = `<p class="text-slate-400 text-sm p-4 col-span-full">暂无播放源信息。</p>`;
+                    // 容错处理：如果调用不是来自点击事件，则通过 type 查找
+                    document.querySelector(`.nav-item[onclick*="'${type}'"]`).classList.add('active');
                 }
-            } else {
-                elements.actionHeader.innerText = (item.type === 'music' ? '播放音乐' : '开始游戏');
-                elements.singlePlayBtn.innerText = (item.type === 'music' ? '立即播放' : '开始游戏');
-                elements.singlePlayBtn.onclick = () => startPlayback(item.id, null);
-                elements.singlePlayBtn.classList.remove('hidden');
-            }
+                this.render();
+            },
 
-            modal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-            lucide.createIcons();
-        }
+            // 新增：直接设置页码
+            setPage(newPage) {
+                this.page = newPage;
+                this.render();
+            },
 
-        function closeDetail() {
-            const modal = document.getElementById('detail-modal');
-            state.currentDetailId = null;
-            modal.classList.add('hidden');
-            document.body.style.overflow = 'auto';
-        }
+            render() {
+                const grid = document.getElementById('grid');
+                const pagination = document.getElementById('pagination');
+                grid.innerHTML = '';
+                pagination.innerHTML = '';
 
+                // 过滤与分页
+                const filtered = db.filter(i => i.type === this.filterType);
+                const totalPages = Math.ceil(filtered.length / this.perPage);
+                const start = (this.page - 1) * this.perPage;
+                const items = filtered.slice(start, start + this.perPage);
 
-        // 开始播放 (核心播放逻辑 - 音乐部分已更新)
-        function startPlayback(id, index = null) {
-            const itemId = id !== null ? id : state.currentDetailId;
-            const item = database.find(i => i.id === itemId);
-            if (!item) return;
+                // 生成卡片
+                items.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
 
-            let mediaSrc;
-            let mediaTitle = item.title;
+                    // 徽章逻辑
+                    let badge = '';
+                    if (item.type === 'video') badge = 'TV / MOVIE';
+                    if (item.type === 'game') badge = 'GAME';
+                    if (item.type === 'music') badge = 'MUSIC';
 
-            if (item.type === 'video' && item.episodes && index !== null && item.episodes[index]) {
-                const episode = item.episodes[index];
-                mediaSrc = episode.src;
-                mediaTitle = `${item.title} - ${episode.title}`;
-            } else {
-                mediaSrc = item.src;
-            }
-
-            if (!mediaSrc) {
-                alert(`无法找到 "${mediaTitle}" 的播放源信息。`);
-                return;
-            }
-            
-            closeDetail(); // 播放前关闭详情页
-
-            const modal = document.getElementById('player-modal');
-            const container = document.getElementById('player-container');
-            const title = document.getElementById('modal-title');
-            const desc = document.getElementById('modal-desc');
-            const iconContainer = document.getElementById('modal-icon');
-
-            title.innerText = mediaTitle;
-            desc.innerText = item.desc;
-            iconContainer.innerHTML = `<i data-lucide="${icons[item.type]}" class="w-5 h-5"></i>`;
-
-            container.innerHTML = ''; // 清理旧内容
-            let contentHtml = '';
-
-            container.style.aspectRatio = '16/9'; // 默认 16:9
-
-            if (item.type === 'game') {
-                container.style.aspectRatio = '4/3'; 
-                contentHtml = `<iframe src="${mediaSrc}" class="w-full h-full border-0" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups"></iframe>`;
-            } else if (item.type === 'video') {
-                if (mediaSrc.endsWith('.mp4') || mediaSrc.endsWith('.webm')) {
-                    contentHtml = `<video src="${mediaSrc}" controls autoplay class="w-full h-full bg-black"></video>`;
-                } else {
-                    contentHtml = `<iframe src="${mediaSrc}" class="w-full h-full border-0" allowfullscreen allow="autoplay"></iframe>`;
-                }
-            } else if (item.type === 'music') {
-                // 【核心修改】Apple Music 风格的播放器界面
-                container.style.aspectRatio = 'auto'; 
-                contentHtml = `
-                    <div class="flex flex-col items-center justify-center w-full h-full bg-zinc-900 text-white relative p-4 md:p-12 overflow-hidden bg-music-dark">
-                        <img src="${item.cover}" class="absolute inset-0 w-full h-full object-cover opacity-5 blur-2xl pointer-events-none">
-                        
-                        <div class="relative z-10 flex flex-col items-center gap-6 w-full max-w-lg">
-                            <img src="${item.cover}" 
-                                alt="${item.title} cover"
-                                class="w-full max-w-xs md:max-w-sm aspect-square rounded-xl shadow-2xl object-cover transform hover:scale-[1.01] transition-transform duration-300 border border-white/10">
-                            
-                            <div class="text-center w-full mt-4">
-                                <h4 class="text-2xl md:text-3xl font-bold text-white mb-1 line-clamp-1">${item.title}</h4>
-                                <p class="text-sm text-zinc-400 line-clamp-2">${item.desc}</p>
+                    card.innerHTML = `
+                        <div class="card-image-wrapper">
+                            <img src="${item.cover}" class="card-img" loading="lazy">
+                            <div class="play-overlay">
+                                <div class="play-icon-circle"><i class="fa-solid fa-play"></i></div>
                             </div>
+                        </div>
+                        <div class="card-content">
+                            <span class="badge">${badge}</span>
+                            <h3 class="card-title">${item.title}</h3>
+                            <p class="card-desc">${item.desc}</p>
+                        </div>
+                    `;
 
-                            <audio controls autoplay class="mt-6 w-full max-w-md">
-                                <source src="${mediaSrc}" type="audio/mpeg">
-                                您的浏览器不支持音频播放。
-                            </audio>
+                    // 绑定事件
+                    card.onclick = () => this.openModal(item);
+                    this.addTiltEffect(card); // 添加3D倾斜效果
+                    grid.appendChild(card);
+                });
+
+                // 生成分页控件 (只有在页数大于1时才显示)
+                if (totalPages > 1) {
+                    // 上一页按钮
+                    const prevBtn = document.createElement('button');
+                    prevBtn.className = 'page-btn';
+                    prevBtn.innerHTML = '<i class="fa-solid fa-chevron-left"></i>';
+                    prevBtn.disabled = this.page === 1;
+                    prevBtn.onclick = () => this.setPage(this.page - 1);
+                    pagination.appendChild(prevBtn);
+
+                    // 分页点
+                    const dotsWrapper = document.createElement('div');
+                    dotsWrapper.className = 'page-dots';
+                    for (let i = 1; i <= totalPages; i++) {
+                        const dot = document.createElement('div');
+                        dot.className = `dot ${i === this.page ? 'active' : ''}`;
+                        dot.onclick = () => this.setPage(i);
+                        dotsWrapper.appendChild(dot);
+                    }
+                    pagination.appendChild(dotsWrapper);
+
+                    // 下一页按钮
+                    const nextBtn = document.createElement('button');
+                    nextBtn.className = 'page-btn';
+                    nextBtn.innerHTML = '<i class="fa-solid fa-chevron-right"></i>';
+                    nextBtn.disabled = this.page === totalPages;
+                    nextBtn.onclick = () => this.setPage(this.page + 1);
+                    pagination.appendChild(nextBtn);
+                }
+            },
+
+            // 核心交互：3D 倾斜效果 (复刻自参考代码)
+            addTiltEffect(card) {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    // 计算旋转角度，除以20是为了让旋转更自然，不要太剧烈
+                    const rotateX = ((y - centerY) / centerY) * -8;
+                    const rotateY = ((x - centerX) / centerX) * 8;
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+                });
+            },
+
+            // 打开模态框
+            openModal(item) {
+                const backdrop = document.getElementById('modal');
+                const content = document.getElementById('modal-content');
+                content.innerHTML = ''; // 清空
+
+                if (item.type === 'video') this.renderVideo(item, content);
+                if (item.type === 'game') this.renderGame(item, content);
+                if (item.type === 'music') this.renderMusic(item, content);
+
+                backdrop.classList.add('active');
+            },
+
+            closeModal() {
+                document.getElementById('modal').classList.remove('active');
+                if (this.audio) { this.audio.pause(); this.audio = null; }
+                setTimeout(() => { document.getElementById('modal-content').innerHTML = ''; }, 400);
+            },
+
+            // === 具体的播放器渲染逻辑 (保持原样) ===
+
+            renderVideo(item, container) {
+                const html = `
+                    <div class="video-layout">
+                        <div class="video-main">
+                            <video id="vPlayer" controls style="width:100%; max-height:100%; outline:none;">
+                                <source src="${item.episodes[0]?.src || ''}">
+                            </video>
+                        </div>
+                        <div class="video-sidebar">
+                            <h2 style="margin-bottom:10px; font-family:var(--font-heading);">${item.title}</h2>
+                            <p style="color:#666; font-size:0.9rem; margin-bottom:20px; line-height:1.6;">${item.desc}</p>
+                            <div style="font-weight:bold; margin-bottom:10px;">选集</div>
+                            <div class="ep-grid">
+                                ${item.episodes.map((ep, idx) => `
+                                    <div class="ep-item ${idx === 0 ? 'active' : ''}" onclick="app.switchEp(this, '${ep.src}')">${ep.title}</div>
+                                `).join('')}
+                            </div>
                         </div>
                     </div>
                 `;
+                container.innerHTML = html;
+            },
+
+            switchEp(btn, src) {
+                const v = document.getElementById('vPlayer');
+                v.src = src; v.play();
+                document.querySelectorAll('.ep-item').forEach(e => e.classList.remove('active'));
+                btn.classList.add('active');
+            },
+
+            renderGame(item, container) {
+                container.innerHTML = `<div class="game-layout"><iframe src="${item.src}" class="game-frame" allowfullscreen></iframe></div>`;
+            },
+
+            // 修改renderMusic方法，使用video元素替代audio元素
+            renderMusic(item, container) {
+                // 创建隐藏的video元素用于播放视频音频
+                const video = document.createElement('video');
+                video.src = item.src; // 这里的src可以是视频链接了
+                video.style.display = 'none'; // 隐藏视频画面
+                document.body.appendChild(video);
+                this.audio = video; // 保持原有变量名，兼容现有控制逻辑
+
+                const html = `
+        <div class="music-layout">
+            <div class="music-bg-glow" style="--glow-color: ${item.color || '#aaa'}"></div>
+            <div class="music-container">
+                <img src="${item.cover}" class="album-art">
+                <div class="music-controls">
+                    <div class="music-title">${item.title}</div>
+                    <div class="music-artist">${item.desc}</div>
+                    <div class="prog-track" id="pTrack"><div class="prog-fill" id="pFill"></div></div>
+                    <div class="btn-group">
+                        <button class="btn-ctrl"><i class="fa-solid fa-backward-step"></i></button>
+                        <button class="btn-ctrl btn-play-lg" id="pBtn" onclick="app.toggleMusic()"><i class="fa-solid fa-play"></i></button>
+                        <button class="btn-ctrl"><i class="fa-solid fa-forward-step"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+                container.innerHTML = html;
+
+                // 时间更新事件保持不变
+                this.audio.addEventListener('timeupdate', () => {
+                    if (!this.audio) return;
+                    const pct = (this.audio.currentTime / this.audio.duration) * 100;
+                    document.getElementById('pFill').style.width = pct + '%';
+                });
+
+                // 进度条点击事件保持不变
+                setTimeout(() => {
+                    document.getElementById('pTrack').addEventListener('click', (e) => {
+                        const w = e.currentTarget.clientWidth;
+                        const x = e.offsetX;
+                        this.audio.currentTime = (x / w) * this.audio.duration;
+                    });
+                }, 100);
+            },
+
+            // closeModal方法中添加移除video元素的逻辑
+            closeModal() {
+                document.getElementById('modal').classList.remove('active');
+                if (this.audio) {
+                    this.audio.pause();
+                    // 如果是video元素则从DOM中移除
+                    if (this.audio.tagName === 'VIDEO') {
+                        this.audio.remove();
+                    }
+                    this.audio = null;
+                }
+                setTimeout(() => { document.getElementById('modal-content').innerHTML = ''; }, 400);
+            },
+            toggleMusic() {
+                const btn = document.getElementById('pBtn');
+                const wrap = document.querySelector('.music-layout');
+                if (this.audio.paused) {
+                    this.audio.play();
+                    btn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+                    wrap.classList.add('music-playing');
+                } else {
+                    this.audio.pause();
+                    btn.innerHTML = '<i class="fa-solid fa-play"></i>';
+                    wrap.classList.remove('music-playing');
+                }
             }
+        };
 
-            container.innerHTML = contentHtml;
-
-            // 4. 显示播放器模态框
-            modal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-            lucide.createIcons();
-        }
-
-        // 关闭播放器 (保持不变)
-        function closePlayer() {
-            const modal = document.getElementById('player-modal');
-            const container = document.getElementById('player-container');
-
-            modal.classList.add('hidden');
-            container.innerHTML = ''; 
-            container.style.aspectRatio = 'auto';
-            document.body.style.overflow = 'auto'; 
-        }
-
-        // 监听 ESC 键关闭 (保持不变)
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closePlayer();
-                closeDetail();
-            }
-        });
+        // 启动
+        app.init();
 
     </script>
 </body>
