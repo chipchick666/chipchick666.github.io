@@ -2,760 +2,791 @@
 <html lang="zh-CN">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>嘻嘻不嘻嘻</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Nunito:wght@400;700&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <style>
-        :root {
-            --glass-bg: rgba(255, 255, 255, 0.45);
-            --glass-border: rgba(255, 255, 255, 0.6);
-            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
-            --accent-color: #FF6B6B;
-            --text-main: #2D3436;
-            --font-main: 'Nunito', sans-serif;
-            --font-heading: 'Fredoka', sans-serif;
-            --anim-speed: 0.3s;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            outline: none;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            font-family: var(--font-main);
-            color: var(--text-main);
-            min-height: 100vh;
-            overflow-x: hidden;
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-        }
-
-        @keyframes gradientBG {
-            0% {
-                background-position: 0% 50%;
-            }
-
-            50% {
-                background-position: 100% 50%;
-            }
-
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-        header {
-            text-align: center;
-            width: 100%;
-            max-width: 500px;
-            margin: 20px auto 30px;
-            padding: 25px;
-            border-radius: 30px;
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border);
-            box-shadow: var(--glass-shadow);
-            position: relative;
-            overflow: hidden;
-        }
-
-        header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 70%);
-            opacity: 0.4;
-            transform: rotate(30deg);
-            pointer-events: none;
-        }
-
-        h1 {
-            font-family: var(--font-heading);
-            font-size: 2.2rem;
-            color: #FFF;
-            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            letter-spacing: 2px;
-            margin-bottom: 5px;
-        }
-
-        .subtitle {
-            color: #FFF;
-            font-weight: 700;
-            letter-spacing: 1px;
-            opacity: 0.9;
-            font-size: 0.9rem;
-        }
-
-        .nav-pills {
-            display: flex;
-            background: rgba(255, 255, 255, 0.3);
-            padding: 6px;
-            border-radius: 50px;
-            gap: 10px;
-            margin-bottom: 40px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .nav-item {
-            padding: 10px 28px;
-            border-radius: 40px;
-            border: none;
-            background: transparent;
-            color: #FFF;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-
-        .nav-item.active {
-            background: #FFF;
-            color: var(--accent-color);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            transform: scale(1.05);
-        }
-
-        .nav-item:hover:not(.active) {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            position: relative;
-            z-index: 1;
-            padding-bottom: 60px;
-        }
-
-        .content-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
-            perspective: 1000px;
-        }
-
-        .card {
-            background: var(--glass-bg);
-            border-radius: 24px;
-            padding: 15px;
-            border: 1px solid var(--glass-border);
-            box-shadow: var(--glass-shadow);
-            transition: transform 0.1s ease, box-shadow 0.3s ease;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            height: 380px;
-            transform-style: preserve-3d;
-            backdrop-filter: blur(10px);
-        }
-
-        .card-image-wrapper {
-            height: 60%;
-            width: 100%;
-            overflow: hidden;
-            border-radius: 18px;
-            margin-bottom: 15px;
-            position: relative;
-        }
-
-        .card-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .card:hover .card-img {
-            transform: scale(1.1);
-        }
-
-        .play-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .card:hover .play-overlay {
-            opacity: 1;
-        }
-
-        .play-icon-circle {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.9);
-            color: var(--accent-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            transform: scale(0);
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .card:hover .play-icon-circle {
-            transform: scale(1);
-        }
-
-        .card-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .badge {
-            align-self: flex-start;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 800;
-            color: #FFF;
-            background: var(--accent-color);
-            margin-bottom: 8px;
-            box-shadow: 0 2px 5px rgba(255, 107, 107, 0.3);
-        }
-
-        .card-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 6px;
-            color: #333;
-            font-family: var(--font-heading);
-        }
-
-        .card-desc {
-            font-size: 0.9rem;
-            color: #555;
-            line-height: 1.5;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .pagination-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            margin-top: 40px;
-        }
-
-        .page-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            background: rgba(255, 255, 255, 0.3);
-            color: #333;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.3s;
-            backdrop-filter: blur(5px);
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .page-btn:hover:not(:disabled) {
-            background: var(--accent-color);
-            color: white;
-            border-color: transparent;
-        }
-
-        .page-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .page-dots {
-            display: flex;
-            gap: 8px;
-        }
-
-        .dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.5);
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .dot.active {
-            background: var(--accent-color);
-            transform: scale(1.3);
-            box-shadow: 0 0 8px var(--accent-color);
-        }
-
-        .modal-backdrop {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(12px);
-            z-index: 999;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s ease;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-backdrop.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .modal-window {
-            width: 90%;
-            max-width: 1000px;
-            height: 80vh;
-            background: #fff;
-            border-radius: 32px;
-            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.3);
-            transform: scale(0.9) translateY(50px);
-            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-            overflow: hidden;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .modal-backdrop.active .modal-window {
-            transform: scale(1) translateY(0);
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(0, 0, 0, 0.05);
-            border: none;
-            cursor: pointer;
-            z-index: 20;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            color: #555;
-            transition: 0.2s;
-        }
-
-        .close-btn:hover {
-            background: var(--accent-color);
-            color: white;
-            transform: rotate(90deg);
-        }
-
-        .video-layout {
-            display: flex;
-            width: 100%;
-            height: 100%;
-            background: #000;
-        }
-
-        .video-main {
-            flex: 3;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: black;
-        }
-
-        .video-sidebar {
-            flex: 1;
-            background: #f9f9f9;
-            padding: 30px;
-            border-left: 1px solid #eee;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .ep-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .ep-item {
-            padding: 8px;
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            text-align: center;
-            cursor: pointer;
-            transition: 0.2s;
-            font-size: 0.9rem;
-        }
-
-        .ep-item:hover,
-        .ep-item.active {
-            background: var(--accent-color);
-            color: white;
-            border-color: var(--accent-color);
-        }
-
-        .game-layout {
-            width: 100%;
-            height: 100%;
-            background: #000;
-        }
-
-        iframe.game-frame {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .music-layout {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #ffffff 0%, #f2f2f7 100%);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .music-bg-glow {
-            position: absolute;
-            width: 150%;
-            height: 150%;
-            background: radial-gradient(circle, var(--glow-color, #ccc) 0%, transparent 60%);
-            opacity: 0.15;
-            filter: blur(80px);
-            z-index: 0;
-            animation: pulse 8s infinite alternate;
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-
-            100% {
-                transform: scale(1.1);
-            }
-        }
-
-        .music-container {
-            z-index: 2;
-            display: flex;
-            gap: 50px;
-            align-items: center;
-            max-width: 900px;
-            width: 90%;
-        }
-
-        .album-art {
-            width: 300px;
-            height: 300px;
-            border-radius: 20px;
-            box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.2);
-            object-fit: cover;
-            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .music-playing .album-art {
-            transform: scale(1.05);
-            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.3);
-        }
-
-        .music-controls {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .music-title {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 5px;
-            color: #1d1d1f;
-            font-family: var(--font-main);
-        }
-
-        .music-artist {
-            font-size: 1.1rem;
-            color: #86868b;
-            margin-bottom: 30px;
-        }
-
-        .prog-track {
-            width: 100%;
-            height: 6px;
-            background: rgba(0, 0, 0, 0.06);
-            border-radius: 10px;
-            margin-bottom: 30px;
-            position: relative;
-            cursor: pointer;
-        }
-
-        .prog-fill {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 0%;
-            background: #333;
-            border-radius: 10px;
-            transition: width 0.1s linear;
-        }
-
-        .btn-group {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-        }
-
-        .btn-ctrl {
-            background: none;
-            border: none;
-            font-size: 24px;
-            color: #333;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .btn-ctrl:hover {
-            transform: scale(1.1);
-            color: var(--accent-color);
-        }
-
-        .btn-play-lg {
-            width: 70px;
-            height: 70px;
-            background: #1d1d1f;
-            border-radius: 50%;
-            color: white;
-            font-size: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-play-lg:hover {
-            transform: scale(1.08);
-            background: #000;
-        }
-
-        @media (max-width: 768px) {
-            .music-container {
-                flex-direction: column;
-                text-align: center;
-                gap: 30px;
-            }
-
-            .album-art {
-                width: 220px;
-                height: 220px;
-            }
-
-            .btn-group {
-                justify-content: center;
-            }
-
-            .video-layout {
-                flex-direction: column;
-            }
-
-            .video-main {
-                height: 40%;
-                flex: none;
-            }
-
-            .video-sidebar {
-                height: 60%;
-                width: 100%;
-                border-left: none;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sun of Fun</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Nunito:wght@400;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.4.12/dist/hls.min.js"></script>
+  <style>
+    :root {
+      --glass-bg: rgba(255, 255, 255, 0.45);
+      --glass-border: rgba(255, 255, 255, 0.6);
+      --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+      --accent-color: #FF6B6B;
+      --text-main: #2D3436;
+      --font-main: 'Nunito', sans-serif;
+      --font-heading: 'Fredoka', sans-serif;
+      --anim-speed: 0.3s;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: var(--font-main);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+      /* 动态流体背景 */
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    @keyframes gradientBG {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    header {
+      text-align: center;
+      width: 100%;
+      max-width: 500px;
+      margin: 20px auto 30px;
+      padding: 25px;
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* 头部光效 */
+    header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 70%);
+      opacity: 0.4;
+      transform: rotate(30deg);
+      pointer-events: none;
+    }
+
+    h1 {
+      font-family: var(--font-heading);
+      font-size: 2.2rem;
+      color: #FFF;
+      text-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      letter-spacing: 2px;
+      margin-bottom: 5px;
+    }
+
+    .subtitle {
+      color: #FFF;
+      font-weight: 700;
+      letter-spacing: 1px;
+      opacity: 0.9;
+      font-size: 0.9rem;
+    }
+
+    /* 胶囊导航 */
+    .nav-pills {
+      display: flex;
+      background: rgba(255, 255, 255, 0.3);
+      padding: 6px;
+      border-radius: 50px;
+      gap: 10px;
+      margin-bottom: 40px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .nav-item {
+      padding: 10px 28px;
+      border-radius: 40px;
+      border: none;
+      background: transparent;
+      color: #FFF;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .nav-item.active {
+      background: #FFF;
+      color: var(--accent-color);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      transform: scale(1.05);
+    }
+
+    .nav-item:hover:not(.active) {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      position: relative;
+      z-index: 1;
+      padding-bottom: 60px;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 30px;
+      perspective: 1000px;
+      /* 为3D效果做准备 */
+    }
+
+    .card {
+      background: var(--glass-bg);
+      border-radius: 24px;
+      padding: 15px;
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow);
+      transition: transform 0.1s ease, box-shadow 0.3s ease;
+      /* transform 时间必须短，不然3D跟手感差 */
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      height: 380px;
+      transform-style: preserve-3d;
+      backdrop-filter: blur(10px);
+    }
+
+    .card-image-wrapper {
+      height: 60%;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 18px;
+      margin-bottom: 15px;
+      position: relative;
+    }
+
+    .card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .card:hover .card-img {
+      transform: scale(1.1);
+    }
+
+    /* 悬浮时的播放按钮遮罩 */
+    .play-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .card:hover .play-overlay {
+      opacity: 1;
+    }
+
+    .play-icon-circle {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--accent-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      transform: scale(0);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .card:hover .play-icon-circle {
+      transform: scale(1);
+    }
+
+    .card-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .badge {
+      align-self: flex-start;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: #FFF;
+      background: var(--accent-color);
+      margin-bottom: 8px;
+      box-shadow: 0 2px 5px rgba(255, 107, 107, 0.3);
+    }
+
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #333;
+      font-family: var(--font-heading);
+    }
+
+    .card-desc {
+      font-size: 0.9rem;
+      color: #555;
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* ================= 4. 分页 (Neon Style) ================= */
+    .pagination-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      margin-top: 40px;
+    }
+
+    /* 翻页按钮样式更新 */
+    .page-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      background: rgba(255, 255, 255, 0.3);
+      color: #333;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.3s;
+      backdrop-filter: blur(5px);
+      font-size: 1.1rem;
+      /* 增加图标大小 */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .page-btn:hover:not(:disabled) {
+      background: var(--accent-color);
+      color: white;
+      border-color: transparent;
+    }
+
+    .page-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .page-dots {
+      display: flex;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .dot.active {
+      background: var(--accent-color);
+      transform: scale(1.3);
+      box-shadow: 0 0 8px var(--accent-color);
+    }
+
+    /* ================= 5. 模态框 (保留原播放器功能) ================= */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(12px);
+      /* 背景模糊 */
+      z-index: 999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* 模态框容器：依然保持白色背景，保证播放器UI清晰 */
+    .modal-window {
+      width: 90%;
+      max-width: 1000px;
+      height: 80vh;
+      background: #fff;
+      border-radius: 32px;
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.3);
+      transform: scale(0.9) translateY(50px);
+      transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-backdrop.active .modal-window {
+      transform: scale(1) translateY(0);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.05);
+      border: none;
+      cursor: pointer;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: #555;
+      transition: 0.2s;
+    }
+
+    .close-btn:hover {
+      background: var(--accent-color);
+      color: white;
+      transform: rotate(90deg);
+    }
+
+    /* ================= 播放器内部布局 (复刻上一版的iOS布局) ================= */
+    /* 视频布局 */
+    .video-layout {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      background: #000;
+    }
+
+    .video-main {
+      flex: 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: black;
+    }
+
+    .video-sidebar {
+      flex: 1;
+      background: #f9f9f9;
+      padding: 30px;
+      border-left: 1px solid #eee;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ep-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .ep-item {
+      padding: 8px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 0.9rem;
+    }
+
+    .ep-item:hover,
+    .ep-item.active {
+      background: var(--accent-color);
+      color: white;
+      border-color: var(--accent-color);
+    }
+
+    /* 游戏布局 */
+    .game-layout {
+      width: 100%;
+      height: 100%;
+      background: #000;
+    }
+
+    iframe.game-frame {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* 音乐布局 (保留 Apple Music 风格) */
+    .music-layout {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* 背景保持干净，和霓虹主页形成对比，突出内容 */
+      background: linear-gradient(135deg, #ffffff 0%, #f2f2f7 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* 动态背景光晕 */
+    .music-bg-glow {
+      position: absolute;
+      width: 150%;
+      height: 150%;
+      background: radial-gradient(circle, var(--glow-color, #ccc) 0%, transparent 60%);
+      opacity: 0.15;
+      filter: blur(80px);
+      z-index: 0;
+      animation: pulse 8s infinite alternate;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+
+      100% {
+        transform: scale(1.1);
+      }
+    }
+
+    .music-container {
+      z-index: 2;
+      display: flex;
+      gap: 50px;
+      align-items: center;
+      max-width: 900px;
+      width: 90%;
+    }
+
+    .album-art {
+      width: 300px;
+      height: 300px;
+      border-radius: 20px;
+      box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.2);
+      object-fit: cover;
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .music-playing .album-art {
+      transform: scale(1.05);
+      box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.3);
+    }
+
+    .music-controls {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .music-title {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 5px;
+      color: #1d1d1f;
+      font-family: var(--font-main);
+    }
+
+    .music-artist {
+      font-size: 1.1rem;
+      color: #86868b;
+      margin-bottom: 30px;
+    }
+
+    /* 进度条 */
+    .prog-track {
+      width: 100%;
+      height: 6px;
+      background: rgba(0, 0, 0, 0.06);
+      border-radius: 10px;
+      margin-bottom: 30px;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .prog-fill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 0%;
+      background: #333;
+      border-radius: 10px;
+      transition: width 0.1s linear;
+    }
+
+    /* 按钮组 */
+    .btn-group {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .btn-ctrl {
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: #333;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn-ctrl:hover {
+      transform: scale(1.1);
+      color: var(--accent-color);
+    }
+
+    .btn-play-lg {
+      width: 70px;
+      height: 70px;
+      background: #1d1d1f;
+      border-radius: 50%;
+      color: white;
+      font-size: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-play-lg:hover {
+      transform: scale(1.08);
+      background: #000;
+    }
+
+    @media (max-width: 768px) {
+      .music-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+      }
+
+      .album-art {
+        width: 220px;
+        height: 220px;
+      }
+
+      .btn-group {
+        justify-content: center;
+      }
+
+      .video-layout {
+        flex-direction: column;
+      }
+
+      .video-main {
+        height: 40%;
+        flex: none;
+      }
+
+      .video-sidebar {
+        height: 60%;
+        width: 100%;
+        border-left: none;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-    <header>
-        <h1>Sun of Fun</h1>
-        <div class="subtitle">let is go</div>
-    </header>
+  <header>
+    <h1>For Fun</h1>
+    <div class="subtitle">Let is Go</div>
+  </header>
 
-    <nav class="nav-pills">
-        <button class="nav-item active" onclick="app.filter('video')">Video</button>
-        <button class="nav-item" onclick="app.filter('music')">Music</button>
-        <button class="nav-item" onclick="app.filter('game')">Game</button>
-    </nav>
+  <nav class="nav-pills">
+    <button class="nav-item active" onclick="app.filter('video')">Video</button>
+    <button class="nav-item" onclick="app.filter('music')">Music</button>
+    <button class="nav-item" onclick="app.filter('game')">Game</button>
+  </nav>
 
-    <div class="container">
-        <div class="content-grid" id="grid">
-        </div>
-
-        <div class="pagination-wrapper" id="pagination">
-        </div>
+  <div class="container">
+    <div class="content-grid" id="grid">
     </div>
 
-    <div class="modal-backdrop" id="modal">
-        <div class="modal-window">
-            <button class="close-btn" onclick="app.closeModal()"><i class="fa-solid fa-xmark"></i></button>
-            <div id="modal-content" style="width: 100%; height: 100%;"></div>
-        </div>
+    <div class="pagination-wrapper" id="pagination">
     </div>
+  </div>
 
-    <script>
+  <div class="modal-backdrop" id="modal">
+    <div class="modal-window">
+      <button class="close-btn" onclick="app.closeModal()"><i class="fa-solid fa-xmark"></i></button>
+      <div id="modal-content" style="width: 100%; height: 100%;"></div>
+    </div>
+  </div>
 
-        const db = [
-            {
-                id: 1, type: 'video', title: '火影忍者剧场版 终章',
-                desc: '第四次忍界大战结束的两年后，此时此刻的漩涡鸣人早已成为盖世英雄一般的人物，无论他走到哪里都受到女孩子和小朋友的喜爱与追捧，他似乎也有其享受这样喧嚣欢闹的氛围。与之相对，壁花小姐日向雏田则始终站在角落里，默默注视着这个她喜欢了多年的男孩子。雏田亲手为鸣人织了围巾，怎奈无法鼓足勇气交给对方，喜欢的话语更难以说出口。某个夜晚，雏田的妹妹花火遭到不明身份之人劫持，带火的陨石则落在附近的山坡之上。为了救回花火，阻止地球毁灭，鸣人、雏田、小樱、鹿丸和佐井奉命前去调查舍人的真身。',
-                cover: 'https://ts1.tc.mm.bing.net/th/id/R-C.580d94b5d6ade886dcb591a11f080443?rik=m6kGhtYgF2CfRQ&riu=http%3a%2f%2fclubimg.club.vmall.com%2fdata%2fattachment%2fforum%2f201907%2f31%2f0102130aijui07eervow6b.jpg&ehk=WuZ40XJSwxQp06qRSGapGS36AqqnbA264q89pDqtvcE%3d&risl=&pid=ImgRaw&r=0',
-                episodes: [
-                    { title: 'EP 01', src: 'https://tempcdn.guoing.com/201910/EezARpRZ/yHzmdvUAYM.mp4' },
-                ]
-            },
-            {
-                id: 2, type: 'video', title: '鬼灭之刃 柱众会议·蝶屋敷篇',
-                desc: '本作为由TV动画《鬼灭之刃》22-26话整合而成的特别上映版。主人公炭治郎身为鬼杀队队员却依旧带着成为鬼的妹妹·祢豆子一同行动，这一违反队规的行为在柱合会议上被鬼杀队的“柱”们审判。在那田蜘蛛山负伤的炭治郎与善逸伊之助一起被带去了蝶屋，过上了一边治疗一边修行的日子。',
-                cover: 'https://ts1.tc.mm.bing.net/th/id/R-C.39d68509f9574cbefcc14a8c229a1f65?rik=6q6WOieeP0bN4A&riu=http%3a%2f%2fpic.qianye88.com%2fpic%2f8803fe0a720680f947bb97510474cff0.jpg&ehk=9AGftnH4AOWOvFzzTTUx7BSiwamezkQUAHu60x03T14%3d&risl=&pid=ImgRaw&r=0',
-                episodes: [
-                    { title: 'EP 01', src: 'https://v16.toutiao50.com/72e48d5324f126a2b07c51d6e7a266a4/6922876b/video/tos/alisg/tos-alisg-v-90231e-sg/oIVtNoAdtBhAIBB7VaGtvAEgiFOiaELUUY071/' }
-                ]
-            },
-            {
-                id: 2, type: 'video', title: '名侦探柯南 侦探们的镇魂歌',
-                desc: '一天毛利小五郎收到一张请帖，里面是谜样男子的委托，需要前往横滨的一个游乐场。小五郎和柯南一行人快乐地到达欢乐的游乐场，还带上了可以出入无阻代表VIP的手表，不料正中那名神秘男子的圈套。所有带上手表的人不得离开游乐场，否则便会发生爆炸。从现在开始到晚上十点，柯南和小五郎如果不能解开谜题，兰和少年侦探团也会随着游乐园粉身碎骨。然而更意想不到的是，那名男子居然直接称呼柯南为工藤新一。',
-                cover: 'https://ts1.tc.mm.bing.net/th/id/R-C.754a68d936c3944337744be2e7563ba4?rik=7u3cMeL8YRRnXw&riu=http%3a%2f%2fpuui.qpic.cn%2fvcover_vt_pic%2f0%2fmzc00200lz3jdut1617767264028%2f0&ehk=t7kjfYMyyQjvZGLQZgzO7tw6ssVVG1FlJY9ovxGfI1U%3d&risl=&pid=ImgRaw&r=0',
-                 episodes: [
-                    { title: 'EP 01', src: 'https://v16.toutiao50.com/b7167ee352b8f19ee895ff0dcd77ae65/692297a4/video/tos/alisg/tos-alisg-v-0051c001-sg/oETDmfKpHgZNDfCJAb9EAbBQVBlFI9wGopqrPE/?a=1233&bti=Nzg3NWYzLTQ6&ch=0&cr=0&dr=0&er=0&lr=default&cd=0%7C0%7C0%7C0&br=2812&bt=1406&ds=4&ft=.bvrXInz7ThqgyCPXq8Zmo&mime_type=video_mp4&qs=13&rc=am5wcng5cjlkNTMzODYzNEBpam5wcng5cjlkNTMzODYzNEBtNG1uMmRzaV5hLS1kMC1zYSNtNG1uMmRzaV5hLS1kMC1zcw%3D%3D&vvpl=1&l=20251122112100B4E16A0A265446FDB83F&btag=600068000&vid=v10033g50000d2aal6vog65uqopm7kpg'},
-                ]
-            },
-            {
-                id: 1, type: 'game', title: '地铁跑酷',
-                desc: '经典的跑酷游戏，看看你能跑多远吧！',
-                cover: 'https://game.mhcdkey.com/picture/wenda/20220901/331w1wcbrzu.jpg',
-                src: 'https://subway-surfers.gg/zh-CN/'
-            },
-            {
-                id: 2, type: 'game', title: '冰上冲刺',
-                desc: '你就是下一个滑雪大师！',
-                cover: 'https://subway-surfers.gg/images/games/icy-dash.png',
-                src: 'https://subway-surfers.gg/zh-CN/icy-dash'
-            },
-            {
-                id: 3, type: 'game', title: '恐怖奶奶',
-                desc: '让人闻风丧胆的恐怖游戏，胆小慎入！',
-                cover: 'https://subway-surfers.gg/images/games/granny-horror.png',
-                src: 'https://subway-surfers.gg/zh-CN/granny-horror'
-            },
-            {
-                id: 1, type: 'music', title: '愿与愁-林俊杰',
-                desc: ' 漫天风雪我陪你颤抖 我们别回头',
-                cover: 'https://img.redocn.com/sheji/20231221/yishuchuangyibeijingchahua_13193938.jpg.400.jpg',
-               src: './music/愿与愁-林俊杰.mp3',
-            },
-            {
-                id: 2, type: 'music', title: '不死之身-林俊杰',
-                desc: ' 撑着悲伤不回头 却感觉此刻你停不了的泪流',
-                cover: 'https://cdn.pixabay.com/photo/2022/06/13/15/23/art-7260232_1280.jpg',
-                src: './music/不死之身-林俊杰.mp3',
-            },
-            {
-                id: 3, type: 'music', title: '茉莉雨-林俊杰',
-                desc: '古镇老墙添绿 又一年过去',
-                cover: 'https://picb1.photophoto.cn/12/995/12995561_1.jpg',
-                src: './music/茉莉雨-林俊杰.mp3',
-            }
-        ];
+  <script>
 
-        const app = {
-            filterType: 'video',
-            page: 1,
-            perPage: 6,
-            audio: null,
+    const db = [
+      {
+        id: 1, type: 'video', title: '火影忍者剧场版 终章',
+        desc: '第四次忍界大战结束的两年后，此时此刻的漩涡鸣人早已成为盖世英雄一般的人物，无论他走到哪里都受到女孩子和小朋友的喜爱与追捧，他似乎也有其享受这样喧嚣欢闹的氛围。与之相对，壁花小姐日向雏田则始终站在角落里，默默注视着这个她喜欢了多年的男孩子。雏田亲手为鸣人织了围巾，怎奈无法鼓足勇气交给对方，喜欢的话语更难以说出口。某个夜晚，雏田的妹妹花火遭到不明身份之人劫持，带火的陨石则落在附近的山坡之上。为了救回花火，阻止地球毁灭，鸣人、雏田、小樱、鹿丸和佐井奉命前去调查舍人的真身。',
+        cover: 'https://ts1.tc.mm.bing.net/th/id/R-C.580d94b5d6ade886dcb591a11f080443?rik=m6kGhtYgF2CfRQ&riu=http%3a%2f%2fclubimg.club.vmall.com%2fdata%2fattachment%2fforum%2f201907%2f31%2f0102130aijui07eervow6b.jpg&ehk=WuZ40XJSwxQp06qRSGapGS36AqqnbA264q89pDqtvcE%3d&risl=&pid=ImgRaw&r=0',
+        episodes: [
+          { title: 'EP 01', src: 'https://vip.ffzy-online1.com/20221222/13896_2ed7594e/index.m3u8' },
+        ]
+      },
+      {
+        id: 2, type: 'video', title: '鬼灭之刃 柱众会议·蝶屋敷篇',
+        desc: '本作为由TV动画《鬼灭之刃》22-26话整合而成的特别上映版。主人公炭治郎身为鬼杀队队员却依旧带着成为鬼的妹妹·祢豆子一同行动，这一违反队规的行为在柱合会议上被鬼杀队的“柱”们审判。在那田蜘蛛山负伤的炭治郎与善逸伊之助一起被带去了蝶屋，过上了一边治疗一边修行的日子。',
+        cover: 'https://ts1.tc.mm.bing.net/th/id/R-C.39d68509f9574cbefcc14a8c229a1f65?rik=6q6WOieeP0bN4A&riu=http%3a%2f%2fpic.qianye88.com%2fpic%2f8803fe0a720680f947bb97510474cff0.jpg&ehk=9AGftnH4AOWOvFzzTTUx7BSiwamezkQUAHu60x03T14%3d&risl=&pid=ImgRaw&r=0',
+        episodes: [
+          { title: 'EP 01', src: 'https://vip.ffzy-play2.com/20230102/19184_d994759e/index.m3u8' },
+        ]
+      },
+      {
+        id: 2, type: 'video', title: '名侦探柯南 侦探们的镇魂歌',
+        desc: '一天毛利小五郎收到一张请帖，里面是谜样男子的委托，需要前往横滨的一个游乐场。小五郎和柯南一行人快乐地到达欢乐的游乐场，还带上了可以出入无阻代表VIP的手表，不料正中那名神秘男子的圈套。所有带上手表的人不得离开游乐场，否则便会发生爆炸。从现在开始到晚上十点，柯南和小五郎如果不能解开谜题，兰和少年侦探团也会随着游乐园粉身碎骨。然而更意想不到的是，那名男子居然直接称呼柯南为工藤新一。',
+        cover: 'https://ts1.tc.mm.bing.net/th/id/R-C.754a68d936c3944337744be2e7563ba4?rik=7u3cMeL8YRRnXw&riu=http%3a%2f%2fpuui.qpic.cn%2fvcover_vt_pic%2f0%2fmzc00200lz3jdut1617767264028%2f0&ehk=t7kjfYMyyQjvZGLQZgzO7tw6ssVVG1FlJY9ovxGfI1U%3d&risl=&pid=ImgRaw&r=0',
+        episodes: [
+          { title: 'EP 01', src: 'https://play.modujx10.com/20230727/3hOTtzxg/index.m3u8' },
+        ]
+      },
+      //以上为影视
+      {
+        id: 1, type: 'game', title: '地铁跑酷',
+        desc: '经典的跑酷游戏，看看你能跑多远吧！',
+        cover: 'https://c-ssl.duitang.com/uploads/item/201403/28/20140328185227_wSffu.jpeg',
+        src: 'https://subway-surfers.gg/zh-CN/'
+      },
+      {
+        id: 2, type: 'game', title: '冰上冲刺',
+        desc: '你就是下一个滑雪大师！',
+        cover: 'https://subway-surfers.gg/images/games/icy-dash.png',
+        src: 'https://subway-surfers.gg/zh-CN/icy-dash'
+      },
+      {
+        id: 3, type: 'game', title: '曲线狂奔',
+        desc: '曲线世界，不断前进！',
+        cover: 'https://1games.io/game/curve-rush-2/25082101/loading.png',
+        src: 'https://subway-surfers.gg/zh-CN/curve-rush-2'
+      },
+      //以上为游戏
+      {
+        id: 1, type: 'music', title: '愿与愁-林俊杰',
+        desc: ' 漫天风雪我陪你颤抖 我们别回头',
+        cover: 'https://img.redocn.com/sheji/20231221/yishuchuangyibeijingchahua_13193938.jpg.400.jpg',
+        src: 'music/愿与愁-林俊杰.mp3',
+      },
+      {
+        id: 2, type: 'music', title: '不死之身-林俊杰',
+        desc: ' 撑着悲伤不回头 却感觉此刻你停不了的泪流',
+        cover: 'https://cdn.pixabay.com/photo/2022/06/13/15/23/art-7260232_1280.jpg',
+        src: 'music/不死之身-林俊杰.mp3',
+      },
+      {
+        id: 3, type: 'music', title: '茉莉雨-林俊杰',
+        desc: '古镇老墙添绿 又一年过去',
+        cover: 'https://picb1.photophoto.cn/12/995/12995561_1.jpg',
+        src: 'music/茉莉雨-林俊杰.mp3',
+      }
+    ];
 
-            init() {
-                document.querySelector('.nav-item').classList.add('active');
-                this.render();
-            },
+    /* ================= 核心逻辑 ================= */
+    const app = {
+      filterType: 'video', // 默认从 'video' 开始
+      page: 1,
+      perPage: 6, // 每页显示 6 个
+      audio: null,
 
-            filter(type) {
-                this.filterType = type;
-                this.page = 1;
-                document.querySelectorAll('.nav-pills .nav-item').forEach(btn => btn.classList.remove('active'));
-                if (event.target.classList.contains('nav-item')) {
-                    event.target.classList.add('active');
-                } else {
-                    document.querySelector(`.nav-item[onclick*="'${type}'"]`).classList.add('active');
-                }
-                this.render();
-            },
+      init() {
+        // 确保 Video 按钮默认是 active 的
+        document.querySelector('.nav-item').classList.add('active');
+        this.render();
+      },
 
-            setPage(newPage) {
-                this.page = newPage;
-                this.render();
-            },
+      filter(type) {
+        this.filterType = type;
+        this.page = 1;
+        // 更新按钮状态
+        document.querySelectorAll('.nav-pills .nav-item').forEach(btn => btn.classList.remove('active'));
+        // 使用 event.target 找到被点击的按钮并激活
+        if (event.target.classList.contains('nav-item')) {
+          event.target.classList.add('active');
+        } else {
+          // 容错处理：如果调用不是来自点击事件，则通过 type 查找
+          document.querySelector(`.nav-item[onclick*="'${type}'"]`).classList.add('active');
+        }
+        this.render();
+      },
 
-            render() {
-                const grid = document.getElementById('grid');
-                const pagination = document.getElementById('pagination');
-                grid.innerHTML = '';
-                pagination.innerHTML = '';
+      // 新增：直接设置页码
+      setPage(newPage) {
+        this.page = newPage;
+        this.render();
+      },
 
-                const filtered = db.filter(i => i.type === this.filterType);
-                const totalPages = Math.ceil(filtered.length / this.perPage);
-                const start = (this.page - 1) * this.perPage;
-                const items = filtered.slice(start, start + this.perPage);
+      render() {
+        const grid = document.getElementById('grid');
+        const pagination = document.getElementById('pagination');
+        grid.innerHTML = '';
+        pagination.innerHTML = '';
 
-                items.forEach(item => {
-                    const card = document.createElement('div');
-                    card.className = 'card';
+        // 过滤与分页
+        const filtered = db.filter(i => i.type === this.filterType);
+        const totalPages = Math.ceil(filtered.length / this.perPage);
+        const start = (this.page - 1) * this.perPage;
+        const items = filtered.slice(start, start + this.perPage);
 
-                    let badge = '';
-                    if (item.type === 'video') badge = 'TV / MOVIE';
-                    if (item.type === 'game') badge = 'GAME';
-                    if (item.type === 'music') badge = 'MUSIC';
+        // 生成卡片
+        items.forEach(item => {
+          const card = document.createElement('div');
+          card.className = 'card';
 
-                    card.innerHTML = `
+          // 徽章逻辑
+          let badge = '';
+          if (item.type === 'video') badge = 'TV / MOVIE';
+          if (item.type === 'game') badge = 'GAME';
+          if (item.type === 'music') badge = 'MUSIC';
+
+          card.innerHTML = `
                         <div class="card-image-wrapper">
                             <img src="${item.cover}" class="card-img" loading="lazy">
                             <div class="play-overlay">
@@ -769,162 +800,234 @@
                         </div>
                     `;
 
-                    card.onclick = () => this.openModal(item);
-                    this.addTiltEffect(card);
-                    grid.appendChild(card);
-                });
+          // 绑定事件
+          card.onclick = () => this.openModal(item);
+          this.addTiltEffect(card); // 添加3D倾斜效果
+          grid.appendChild(card);
+        });
 
-                if (totalPages > 1) {
-                    const prevBtn = document.createElement('button');
-                    prevBtn.className = 'page-btn';
-                    prevBtn.innerHTML = '<i class="fa-solid fa-chevron-left"></i>';
-                    prevBtn.disabled = this.page === 1;
-                    prevBtn.onclick = () => this.setPage(this.page - 1);
-                    pagination.appendChild(prevBtn);
+        // 生成分页控件 (只有在页数大于1时才显示)
+        if (totalPages > 1) {
+          // 上一页按钮
+          const prevBtn = document.createElement('button');
+          prevBtn.className = 'page-btn';
+          prevBtn.innerHTML = '<i class="fa-solid fa-chevron-left"></i>';
+          prevBtn.disabled = this.page === 1;
+          prevBtn.onclick = () => this.setPage(this.page - 1);
+          pagination.appendChild(prevBtn);
 
-                    const dotsWrapper = document.createElement('div');
-                    dotsWrapper.className = 'page-dots';
-                    for (let i = 1; i <= totalPages; i++) {
-                        const dot = document.createElement('div');
-                        dot.className = `dot ${i === this.page ? 'active' : ''}`;
-                        dot.onclick = () => this.setPage(i);
-                        dotsWrapper.appendChild(dot);
-                    }
-                    pagination.appendChild(dotsWrapper);
+          // 分页点
+          const dotsWrapper = document.createElement('div');
+          dotsWrapper.className = 'page-dots';
+          for (let i = 1; i <= totalPages; i++) {
+            const dot = document.createElement('div');
+            dot.className = `dot ${i === this.page ? 'active' : ''}`;
+            dot.onclick = () => this.setPage(i);
+            dotsWrapper.appendChild(dot);
+          }
+          pagination.appendChild(dotsWrapper);
 
-                    const nextBtn = document.createElement('button');
-                    nextBtn.className = 'page-btn';
-                    nextBtn.innerHTML = '<i class="fa-solid fa-chevron-right"></i>';
-                    nextBtn.disabled = this.page === totalPages;
-                    nextBtn.onclick = () => this.setPage(this.page + 1);
-                    pagination.appendChild(nextBtn);
-                }
-            },
+          // 下一页按钮
+          const nextBtn = document.createElement('button');
+          nextBtn.className = 'page-btn';
+          nextBtn.innerHTML = '<i class="fa-solid fa-chevron-right"></i>';
+          nextBtn.disabled = this.page === totalPages;
+          nextBtn.onclick = () => this.setPage(this.page + 1);
+          pagination.appendChild(nextBtn);
+        }
+      },
 
-            addTiltEffect(card) {
-                card.addEventListener('mousemove', (e) => {
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
-                    const rotateX = ((y - centerY) / centerY) * -8;
-                    const rotateY = ((x - centerX) / centerX) * 8;
-                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
-                });
+      // 核心交互：3D 倾斜效果 (复刻自参考代码)
+      addTiltEffect(card) {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          // 计算旋转角度，除以20是为了让旋转更自然，不要太剧烈
+          const rotateX = ((y - centerY) / centerY) * -8;
+          const rotateY = ((x - centerX) / centerX) * 8;
+          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+        });
 
-                card.addEventListener('mouseleave', () => {
-                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
-                });
-            },
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+        });
+      },
 
-            openModal(item) {
-                const backdrop = document.getElementById('modal');
-                const content = document.getElementById('modal-content');
-                content.innerHTML = '';
+      // 打开模态框
+      openModal(item) {
+        const backdrop = document.getElementById('modal');
+        const content = document.getElementById('modal-content');
+        content.innerHTML = ''; // 清空
 
-                if (item.type === 'video') this.renderVideo(item, content);
-                if (item.type === 'game') this.renderGame(item, content);
-                if (item.type === 'music') this.renderMusic(item, content);
+        if (item.type === 'video') this.renderVideo(item, content);
+        if (item.type === 'game') this.renderGame(item, content);
+        if (item.type === 'music') this.renderMusic(item, content);
 
-                backdrop.classList.add('active');
-            },
+        backdrop.classList.add('active');
+      },
 
-            closeModal() {
-                document.getElementById('modal').classList.remove('active');
-                if (this.audio) { this.audio.pause(); this.audio = null; }
-                setTimeout(() => { document.getElementById('modal-content').innerHTML = ''; }, 400);
-            },
+      closeModal() {
+        document.getElementById('modal').classList.remove('active');
+        if (this.audio) { this.audio.pause(); this.audio = null; }
+        setTimeout(() => { document.getElementById('modal-content').innerHTML = ''; }, 400);
+      },
 
-            renderVideo(item, container) {
-                const html = `
-                    <div class="video-layout">
-                        <div class="video-main">
-                            <video id="vPlayer" controls style="width:100%; max-height:100%; outline:none;">
-                                <source src="${item.episodes[0]?.src || ''}">
-                            </video>
-                        </div>
-                        <div class="video-sidebar">
-                            <h2 style="margin-bottom:10px; font-family:var(--font-heading);">${item.title}</h2>
-                            <p style="color:#666; font-size:0.9rem; margin-bottom:20px; line-height:1.6;">${item.desc}</p>
-                            <div style="font-weight:bold; margin-bottom:10px;">选集</div>
-                            <div class="ep-grid">
-                                ${item.episodes.map((ep, idx) => `
-                                    <div class="ep-item ${idx === 0 ? 'active' : ''}" onclick="app.switchEp(this, '${ep.src}')">${ep.title}</div>
-                                `).join('')}
-                            </div>
-                        </div>
+      // === 具体的播放器渲染逻辑 (保持原样) ===
+
+      renderVideo(item, container) {
+        const html = `
+        <div class="video-layout">
+            <div class="video-main">
+                <video id="vPlayer" controls style="width:100%; max-height:100%; outline:none;">
+                    <source src="${item.episodes[0]?.src || ''}">
+                </video>
+            </div>
+            <div class="video-sidebar">
+                <h2 style="margin-bottom:10px; font-family:var(--font-heading);">${item.title}</h2>
+                <p style="color:#666; font-size:0.9rem; margin-bottom:20px; line-height:1.6;">${item.desc}</p>
+                <div style="font-weight:bold; margin-bottom:10px;">选集</div>
+                <div class="ep-grid">
+                    ${item.episodes.map((ep, idx) => `
+                        <div class="ep-item ${idx === 0 ? 'active' : ''}" onclick="app.switchEp(this, '${ep.src}')">${ep.title}</div>
+                    `).join('')}
+                </div>
+            </div>
+        </div>
+    `;
+        container.innerHTML = html;
+
+        // 初始化第一个视频源
+        const firstSrc = item.episodes[0]?.src || '';
+        this.initVideoPlayer(firstSrc);
+      },
+      // 初始化视频播放器，处理HLS兼容
+      initVideoPlayer(src) {
+        const video = document.getElementById('vPlayer');
+        video.src = src;
+
+        // 检查是否为m3u8格式
+        const isHls = src.toLowerCase().endsWith('.m3u8');
+
+        if (isHls) {
+          // 处理HLS格式
+          if (Hls.isSupported()) {
+            // 浏览器不原生支持HLS，使用hls.js
+            const hls = new Hls();
+            hls.loadSource(src);
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED, () => {
+              video.play().catch(e => console.log('自动播放失败:', e));
+            });
+          } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            // Safari等原生支持HLS的浏览器
+            video.src = src;
+            video.addEventListener('loadedmetadata', () => {
+              video.play().catch(e => console.log('自动播放失败:', e));
+            });
+          }
+        } else {
+          // 非HLS格式，直接播放
+          video.play().catch(e => console.log('自动播放失败:', e));
+        }
+      },
+      switchEp(btn, src) {
+        const v = document.getElementById('vPlayer');
+        // 先销毁可能存在的hls实例
+        if (window.currentHls) {
+          window.currentHls.destroy();
+        }
+        document.querySelectorAll('.ep-item').forEach(e => e.classList.remove('active'));
+        btn.classList.add('active');
+
+        // 使用新的初始化方法
+        this.initVideoPlayer(src);
+      },
+
+      renderGame(item, container) {
+        container.innerHTML = `<div class="game-layout"><iframe src="${item.src}" class="game-frame" allowfullscreen></iframe></div>`;
+      },
+
+      // 修改renderMusic方法，使用video元素替代audio元素
+      renderMusic(item, container) {
+        // 创建隐藏的video元素用于播放视频音频
+        const video = document.createElement('video');
+        video.src = item.src; // 这里的src可以是视频链接了
+        video.style.display = 'none'; // 隐藏视频画面
+        document.body.appendChild(video);
+        this.audio = video; // 保持原有变量名，兼容现有控制逻辑
+
+        const html = `
+        <div class="music-layout">
+            <div class="music-bg-glow" style="--glow-color: ${item.color || '#aaa'}"></div>
+            <div class="music-container">
+                <img src="${item.cover}" class="album-art">
+                <div class="music-controls">
+                    <div class="music-title">${item.title}</div>
+                    <div class="music-artist">${item.desc}</div>
+                    <div class="prog-track" id="pTrack"><div class="prog-fill" id="pFill"></div></div>
+                    <div class="btn-group">
+                        <button class="btn-ctrl"><i class="fa-solid fa-backward-step"></i></button>
+                        <button class="btn-ctrl btn-play-lg" id="pBtn" onclick="app.toggleMusic()"><i class="fa-solid fa-play"></i></button>
+                        <button class="btn-ctrl"><i class="fa-solid fa-forward-step"></i></button>
                     </div>
-                `;
-                container.innerHTML = html;
-            },
+                </div>
+            </div>
+        </div>
+    `;
+        container.innerHTML = html;
 
-            switchEp(btn, src) {
-                const v = document.getElementById('vPlayer');
-                v.src = src; v.play();
-                document.querySelectorAll('.ep-item').forEach(e => e.classList.remove('active'));
-                btn.classList.add('active');
-            },
+        // 时间更新事件保持不变
+        this.audio.addEventListener('timeupdate', () => {
+          if (!this.audio) return;
+          const pct = (this.audio.currentTime / this.audio.duration) * 100;
+          document.getElementById('pFill').style.width = pct + '%';
+        });
 
-            renderGame(item, container) {
-                container.innerHTML = `<div class="game-layout"><iframe src="${item.src}" class="game-frame" allowfullscreen></iframe></div>`;
-            },
+        // 进度条点击事件保持不变
+        setTimeout(() => {
+          document.getElementById('pTrack').addEventListener('click', (e) => {
+            const w = e.currentTarget.clientWidth;
+            const x = e.offsetX;
+            this.audio.currentTime = (x / w) * this.audio.duration;
+          });
+        }, 100);
+      },
 
-            renderMusic(item, container) {
-                this.audio = new Audio(item.src);
-                const html = `
-                    <div class="music-layout">
-                        <div class="music-bg-glow" style="--glow-color: ${item.color || '#aaa'}"></div>
-                        <div class="music-container">
-                            <img src="${item.cover}" class="album-art">
-                            <div class="music-controls">
-                                <div class="music-title">${item.title}</div>
-                                <div class="music-artist">${item.desc}</div>
-                                <div class="prog-track" id="pTrack"><div class="prog-fill" id="pFill"></div></div>
-                                <div class="btn-group">
-                                    <button class="btn-ctrl"><i class="fa-solid fa-backward-step"></i></button>
-                                    <button class="btn-ctrl btn-play-lg" id="pBtn" onclick="app.toggleMusic()"><i class="fa-solid fa-play"></i></button>
-                                    <button class="btn-ctrl"><i class="fa-solid fa-forward-step"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                container.innerHTML = html;
+      // closeModal方法中添加移除video元素的逻辑
+      closeModal() {
+        document.getElementById('modal').classList.remove('active');
+        if (this.audio) {
+          this.audio.pause();
+          // 如果是video元素则从DOM中移除
+          if (this.audio.tagName === 'VIDEO') {
+            this.audio.remove();
+          }
+          this.audio = null;
+        }
+        setTimeout(() => { document.getElementById('modal-content').innerHTML = ''; }, 400);
+      },
+      toggleMusic() {
+        const btn = document.getElementById('pBtn');
+        const wrap = document.querySelector('.music-layout');
+        if (this.audio.paused) {
+          this.audio.play();
+          btn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+          wrap.classList.add('music-playing');
+        } else {
+          this.audio.pause();
+          btn.innerHTML = '<i class="fa-solid fa-play"></i>';
+          wrap.classList.remove('music-playing');
+        }
+      }
+    };
 
-                this.audio.addEventListener('timeupdate', () => {
-                    if (!this.audio) return;
-                    const pct = (this.audio.currentTime / this.audio.duration) * 100;
-                    document.getElementById('pFill').style.width = pct + '%';
-                });
+    // 启动
+    app.init();
 
-                setTimeout(() => {
-                    document.getElementById('pTrack').addEventListener('click', (e) => {
-                        const w = e.currentTarget.clientWidth;
-                        const x = e.offsetX;
-                        this.audio.currentTime = (x / w) * this.audio.duration;
-                    });
-                }, 100);
-            },
-
-            toggleMusic() {
-                const btn = document.getElementById('pBtn');
-                const wrap = document.querySelector('.music-layout');
-                if (this.audio.paused) {
-                    this.audio.play();
-                    btn.innerHTML = '<i class="fa-solid fa-pause"></i>';
-                    wrap.classList.add('music-playing');
-                } else {
-                    this.audio.pause();
-                    btn.innerHTML = '<i class="fa-solid fa-play"></i>';
-                    wrap.classList.remove('music-playing');
-                }
-            }
-        };
-
-        app.init();
-
-    </script>
+  </script>
 </body>
 
 </html>
