@@ -798,14 +798,14 @@
             cart: JSON.parse(localStorage.getItem('magicShopCart')) || [],
             // 从 localStorage 读取商品数据，若无则初始化默认商品
             products: JSON.parse(localStorage.getItem('magicShopProducts')) || [
-                { id: 'music1', name: '库洛牌主题曲', price: 30, category: '音乐', description: '百变小樱经典主题曲...', image: 'https://i0.hdslb.com/bfs/new_dyn/f5366ecb5e794799617709bd2a71f6e23494361121687763.png@.webp' },
-                { id: 'music2', name: '魔卡变奏合集', price: 50, category: '音乐', description: '包含多种版本的魔卡变奏音乐...', image: 'https://i0.hdslb.com/bfs/new_dyn/88a6957192a1ac1b8545317683f083073494361121687763.png@.webp' },
-                { id: 'gift1', name: '库洛牌套装', price: 120, category: '礼物', description: '精致的库洛牌收藏套装...', image: 'https://i0.hdslb.com/bfs/new_dyn/5442628c4e5e5b57a589a602491843a13494361121687763.png@.webp' },
-                { id: 'gift2', name: '魔法棒模型', price: 99, category: '礼物', description: '小樱魔法棒1:1复刻模型...', image: 'https://i0.hdslb.com/bfs/new_dyn/b99d59a9027e6627e8e42c3e865408fd3494361121687763.png@.webp' },
-                { id: 'therapy1', name: '心灵疗愈指导', price: 80, category: '疗法', description: '基于小樱精神的心灵疗愈...', image: 'https://i0.hdslb.com/bfs/new_dyn/3ae8aeff248eca89e1e490f92a67860a3494361121687763.png@.webp' },
-                { id: 'therapy2', name: '冥想引导', price: 60, category: '疗法', description: '在魔法氛围中进行的冥想...', image: 'https://i0.hdslb.com/bfs/new_dyn/1003c80f5a65c6ee25f726623b18bc303494361121687763.png@.webp' },
-                { id: 'clothes1', name: '小樱战斗服', price: 199, category: '服饰', description: '还原动画中小樱的经典战斗服装...', image: 'https://i0.hdslb.com/bfs/new_dyn/1794f4107d8c39ac602c52d489b0b15e3494361121687763.png@.webp' },
-                { id: 'clothes2', name: '魔法少女斗篷', price: 159, category: '服饰', description: '精致的魔法斗篷...', image: 'https://i0.hdslb.com/bfs/new_dyn/6ed86fb50f58dcbeb715a4c36beded2a3494361121687763.png@.webp' },
+                { id: 'music1', name: '库洛牌主题曲', price: 30, category: '音乐', description: '百变小樱经典主题曲...', image: '../picture/库洛牌主题曲.png'},
+                { id: 'music2', name: '魔卡变奏合集', price: 50, category: '音乐', description: '包含多种版本的魔卡变奏音乐...', image: '../picture/魔卡变奏合集.png'},
+                { id: 'gift1', name: '库洛牌套装', price: 120, category: '礼物', description: '精致的库洛牌收藏套装...', image: '../picture/库洛牌套装.png'},
+                { id: 'gift2', name: '魔法棒模型', price: 99, category: '礼物', description: '小樱魔法棒1:1复刻模型...', image: '../picture/魔法棒模型.png'},
+                { id: 'therapy1', name: '心灵疗愈指导', price: 80, category: '疗法', description: '基于小樱精神的心灵疗愈...', image: '../picture/心灵疗愈指导.png'},
+                { id: 'therapy2', name: '冥想引导', price: 60, category: '疗法', description: '在魔法氛围中进行的冥想...',image: '../picture/冥想引导.png'},
+                { id: 'clothes1', name: '小樱战斗服', price: 199, category: '服饰', description: '还原动画中小樱的经典战斗服装...',image: '../picture/小樱战斗服.png'},
+                { id: 'clothes2', name: '魔法少女斗篷', price: 159, category: '服饰', description: '精致的魔法斗篷...', image: '../picture/魔法少女斗篷.png'},
             ],
             currentProductDetail: null // 当前正在查看详情的商品
         };
