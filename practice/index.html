@@ -275,14 +275,13 @@
                     </button>
                 </div>
             </div>
-
             <nav id="mainNav" class="hidden mb-8">
                 <ul class="flex flex-wrap justify-center gap-4 md:gap-8">
-                    <li><a href="#" class="nav-link nav-btn active" data-page="shopPage">商品商店</a></li>
-                    <li><a href="#" class="nav-link nav-btn" data-page="cartPage">购物车</a></li>
-                    <li><a href="#" class="nav-link nav-btn" data-page="paymentPage">支付订单</a></li>
-                    <li><a href="#" class="nav-link nav-btn" data-page="usagePage">魔法交流</a></li>
-                    <li><a href="#" class="nav-link nav-btn" data-page="profilePage">我的账户</a></li>
+                    <li><a id="nav-store" href="#" class="nav-link nav-btn active" data-page="shopPage">商品商店</a></li>
+                    <li><a id="nav-cart" href="#" class="nav-link nav-btn" data-page="cartPage">购物车</a></li>
+                    <li><a id="nav-pay" href="#" class="nav-link nav-btn" data-page="paymentPage">支付订单</a></li>
+                    <li><a id="nav-forum" href="#" class="nav-link nav-btn" data-page="usagePage">魔法交流</a></li>
+                    <li><a id="nav-account" href="#" class="nav-link nav-btn" data-page="profilePage">我的账户</a></li>
                 </ul>
             </nav>
         </header>
@@ -380,7 +379,7 @@
         <section id="adminPage" class="hidden">
             <div class="card mb-8 p-6">
                 <h2 class="text-2xl font-bold text-primary mb-4">
-                    <i class="fa fa-tachometer text-accent mr-2"></i>管理员控制台
+                    <i id="nav-admin" class="fa fa-tachometer text-accent mr-2"></i>管理员控制台
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div class="bg-primary/10 p-4 rounded-xl transform transition-all hover:scale-105">
@@ -902,6 +901,7 @@
             });
             initApp();
             initMusicPlayer();
+
         });
 
         /**
@@ -932,6 +932,7 @@
                 showPage('adminPage');
                 updateAdminPage();
                 setupUserInfoDisplay('管理员');
+                domElements.mainNav.classList.add('hidden');
             } else if (savedUser) {
                 // 恢复普通用户会话
                 try {
@@ -1166,7 +1167,6 @@
 
             handleModalClicks(); // 初始化通用模态框关闭逻辑
         }
-
         function handleModalClicks() {
             // 关闭按钮点击
             document.querySelectorAll('.close-modal-btn').forEach(btn => {
@@ -1326,7 +1326,7 @@
             document.getElementById('usernameDisplay').textContent = `欢迎，${username}！`;
         }
 
-        // 登录处理
+        // 用户登录
         function handleLogin() {
             const username = document.getElementById('loginUsername').value.trim();
             const password = document.getElementById('loginPassword').value.trim();
@@ -1412,11 +1412,11 @@
                 appState.isAdmin = true;
                 localStorage.setItem('magicShopIsAdmin', 'true');
                 localStorage.setItem('magicShopCurrentUser', 'admin');
-
                 showPage('adminPage');
+
                 setupUserInfoDisplay('管理员');
                 updateAdminPage();
-
+                domElements.mainNav.classList.add('hidden');
                 showNotification('管理员登录成功', '欢迎回来，管理员！', 'success');
                 document.getElementById('adminUsername').value = '';
                 document.getElementById('adminPassword').value = '';
@@ -1955,49 +1955,132 @@
         }
 
         // 更新后台图表
+        /*
+        更新管理员控制台的图表：商品销售额 (左轴) 和销售数量 (右轴)
+        */
         function updateCharts() {
             const productSales = {};
+            const productQuantities = {}; // 新增：用于存储商品销售数量
             const categorySales = {};
 
             // 初始化计数器
             appState.products.forEach(product => {
                 productSales[product.name] = 0;
-                if (!categorySales[product.category]) { categorySales[product.category] = 0; }
+                productQuantities[product.name] = 0; // 初始化商品数量
+                if (!categorySales[product.category]) {
+                    categorySales[product.category] = 0;
+                }
             });
 
-            // 遍历所有用户的订单计算销售额
+            // 遍历所有用户的订单，计算销售额和销售数量
             appState.users.forEach(user => {
                 user.orders.forEach(order => {
                     order.items.forEach(item => {
-                        if (productSales[item.name] !== undefined) { productSales[item.name] += item.totalPrice; }
-                        if (categorySales[item.category] !== undefined) { categorySales[item.category] += item.totalPrice; }
+                        if (productSales[item.name] !== undefined) {
+                            productSales[item.name] += item.totalPrice; // 销售额
+                            productQuantities[item.name] += item.quantity; // 销售数量 (新增)
+                        }
+                        if (categorySales[item.category] !== undefined) {
+                            categorySales[item.category] += item.totalPrice;
+                        }
                     });
                 });
             });
 
-            if (productChartInstance) { productChartInstance.destroy(); }
-            if (categoryChartInstance) { categoryChartInstance.destroy(); }
+            if (productChartInstance) {
+                productChartInstance.destroy();
+            }
+            if (categoryChartInstance) {
+                categoryChartInstance.destroy();
+            }
 
             const productCtx = document.getElementById('productChart').getContext('2d');
+
+            // --- 商品销售数据图表 (混合图表 + 双Y轴) ---
             productChartInstance = new Chart(productCtx, {
-                type: 'bar',
+                type: 'bar', // 主类型仍为条形图 (销售额)
                 data: {
                     labels: Object.keys(productSales),
-                    datasets: [{
-                        label: '销售额 (元)',
-                        data: Object.values(productSales),
-                        backgroundColor: 'rgba(248, 165, 194, 0.7)',
-                        borderColor: 'rgba(248, 165, 194, 1)',
-                        borderWidth: 1
-                    }]
+                    datasets: [
+                        {
+                            label: '销售额 (元)', // 柱状图 (左轴)
+                            data: Object.values(productSales),
+                            backgroundColor: 'rgba(248, 165, 194, 0.7)', // Primary color
+                            borderColor: 'rgba(248, 165, 194, 1)',
+                            borderWidth: 1,
+                            yAxisID: 'y' // 关联到左侧Y轴
+                        },
+                        {
+                            label: '销售数量 (件)', // 折线图 (右轴)
+                            data: Object.values(productQuantities), // 使用新的数量数据
+                            type: 'line', // 设定为折线图
+                            fill: false,
+                            borderColor: 'rgba(155, 106, 250, 1)', // Secondary color (魔法紫)
+                            backgroundColor: 'rgba(155, 106, 250, 0.3)',
+                            borderWidth: 3,
+                            pointRadius: 5,
+                            pointBackgroundColor: 'white',
+                            tension: 0.3, // 曲线张力
+                            yAxisID: 'y1' // 关联到右侧Y轴
+                        }
+                    ]
                 },
                 options: {
                     responsive: true,
-                    scales: { y: { beginAtZero: true } },
-                    plugins: { legend: { display: false } }
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            grid: {
+                                drawOnChartArea: false // 保持图表整洁
+                            }
+                        },
+                        y: { // 左侧Y轴 - 销售额
+                            type: 'linear',
+                            position: 'left',
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: '销售额 (元)',
+                                color: 'rgba(248, 165, 194, 1)'
+                            },
+                            ticks: {
+                                color: 'rgba(248, 165, 194, 1)'
+                            }
+                        },
+                        y1: { // 右侧Y轴 - 销售数量 (新增)
+                            type: 'linear',
+                            position: 'right',
+                            beginAtZero: true,
+                            grid: {
+                                drawOnChartArea: false // 不在图表区域内绘制此轴的网格线
+                            },
+                            title: {
+                                display: true,
+                                text: '销售数量 (件)',
+                                color: 'rgba(155, 106, 250, 1)'
+                            },
+                            ticks: {
+                                stepSize: 1, // 确保数量为整数
+                                color: 'rgba(155, 106, 250, 1)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true, // 启用图例
+                            labels: {
+                                usePointStyle: true,
+                                boxWidth: 10,
+                            }
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                        }
+                    }
                 }
             });
-
+            // --- 分类销售数据图表 (保持不变) ---
             const categoryCtx = document.getElementById('categoryChart').getContext('2d');
             categoryChartInstance = new Chart(categoryCtx, {
                 type: 'doughnut',
@@ -2006,24 +2089,27 @@
                     datasets: [{
                         data: Object.values(categorySales),
                         backgroundColor: [
-                            'rgba(248, 165, 194, 0.7)', 'rgba(155, 106, 250, 0.7)', 'rgba(255, 215, 0, 0.7)',
-                            'rgba(87, 75, 144, 0.7)', 'rgba(255, 235, 240, 0.7)'
+                            'rgba(248, 165, 194, 0.7)',
+                            'rgba(155, 106, 250, 0.7)',
+                            'rgba(255, 215, 0, 0.7)',
+                            'rgba(87, 75, 144, 0.7)',
+                            'rgba(255, 235, 240, 0.7)'
                         ],
-                        borderColor: [
-                            'rgba(248, 165, 194, 1)', 'rgba(155, 106, 250, 1)', 'rgba(255, 215, 0, 1)',
-                            'rgba(87, 75, 144, 1)', 'rgba(255, 235, 240, 1)'
-                        ],
-                        borderWidth: 1
+                        hoverOffset: 4
                     }]
                 },
                 options: {
                     responsive: true,
-                    plugins: { legend: { position: 'right' } }
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        }
+                    }
                 }
             });
         }
-
         // 全局通知系统
+
         function showNotification(title, message, type = 'info') {
             const modal = document.getElementById('notificationModal');
             const icon = document.getElementById('notificationIcon');
@@ -2121,17 +2207,20 @@
             const playIcon = document.getElementById('playIcon');
             const recordDisc = document.getElementById('recordDisc');
 
-           const playlist = [
-                { title: '愿与愁', 
-                src: '../music/愿与愁-林俊杰.mp3'
+            const playlist = [
+                {
+                    title: '愿与愁',
+                    src: 'https://gitee.com/yangsangalter/music/raw/master/%E6%84%BF%E4%B8%8E%E6%84%81-%E6%9E%97%E4%BF%8A%E6%9D%B0.mp3'
                 }, // 歌名自定义
 
-                { title: '不死之身', 
-                src: '../music/不死之身-林俊杰.mp3'
+                {
+                    title: '不死之身',
+                    src: ' https://gitee.com/yangsangalter/music/raw/master/%E4%B8%8D%E6%AD%BB%E4%B9%8B%E8%BA%AB-%E6%9E%97%E4%BF%8A%E6%9D%B0.mp3'
                 }, // 歌名自定义
 
-                { title: '茉莉雨',
-                 src: '../music/茉莉雨-林俊杰.mp3'
+                {
+                    title: '茉莉雨',
+                    src: 'https://gitee.com/yangsangalter/music/raw/master/%E8%8C%89%E8%8E%89%E9%9B%A8-%E6%9E%97%E4%BF%8A%E6%9D%B0.mp3'
                 } // 歌名自定义
             ];
             let currentSongIndex = 0;
@@ -2188,7 +2277,7 @@
             // 4. 上一首/下一首
             prevBtn.addEventListener('click', () => {
                 if (playlist.length === 0) return;
-                let newIndex =currentSongIndex - 1;
+                let newIndex = currentSongIndex - 1;
                 if (newIndex < 0) newIndex = playlist.length - 1; // 循环到最后一首
                 loadSong(newIndex);
                 playSong();
@@ -2242,7 +2331,7 @@
             playPauseBtn.addEventListener('click', togglePlay);
             loadSong(0);
         }
-        
+
     </script>
 </body>
 
